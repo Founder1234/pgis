@@ -1,0 +1,228 @@
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+body {
+  padding: 0;
+  position: relative;
+}
+
+p,pre {
+  margin: 0;
+  border: 0;
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.marketing,
+.footer {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Custom page header */
+.header {
+  border-bottom: 1px solid #e5e5e5;
+  margin-bottom: 10px;
+}
+/* Make the masthead heading the same height as the navigation */
+.header h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 40px;
+  padding-bottom: 19px;
+}
+
+/* Custom page footer */
+.footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+}
+
+.footer-box {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+}
+.jumbotron .btn {
+  font-size: 21px;
+  padding: 14px 24px;
+}
+
+/* Supporting marketing content */
+.marketing {
+  margin: 40px 0;
+}
+.marketing p + h4 {
+  margin-top: 28px;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+  .container {
+    max-width: 730px;
+  }
+
+  /* Remove the padding we set earlier */
+  .header,
+  .marketing,
+  .footer {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  /* Space out the masthead */
+  .header {
+    margin-bottom: 30px;
+  }
+  /* Remove the bottom border on the jumbotron for visual effect */
+  .jumbotron {
+    border-bottom: 0;
+  }
+}
+
+.navbar-inverse {
+  background: #303f9f;
+  color: #ffffff;
+}
+.navbar-inverse .navbar-nav > .active > a {
+  background: #1a237e;
+  color: #ffffff;
+}
+.navbar-inverse .navbar-nav > .active > a:hover {
+  background: #1a237e;
+  color: #ffffff;
+}
+.navbar-inverse .navbar-nav > .active > a:focus {
+  background: #1a237e;
+  color: #ffffff;
+}
+.navbar-inverse .navbar-nav > .open > a {
+  background: #1a237e;
+  color: #ffffff;
+}
+.navbar-inverse .navbar-nav > .open > a:hover {
+  background: #1a237e;
+  color: #ffffff;
+}
+.navbar-inverse .navbar-nav > .open > a:focus {
+  background: #1a237e;
+  color: #ffffff;
+}
+.navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
+  background-color: #303f9f;
+  color: #eeeeee;
+}
+.navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover {
+  color: #000000;
+}
+.navbar-inverse .navbar-nav .open .dropdown-menu {
+  background-color: #303f9f;
+  color: #eeeeee;
+}
+
+/** 正文内容部分 */
+.start-up-header {
+  border-bottom: 1px solid #CECECE;
+}
+
+.start-up-header > span {
+  font-family: 微软雅黑;
+  font-weight: bold;
+}
+
+.start-up-content {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 10px;
+  line-height: 1.5;
+  font-size: 18px;
+}
+
+.start-up-code {
+  padding-left: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.start-up-code > p {
+  background-color: #E18728;
+  padding-left: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 2;
+  color: white;
+}
+
+.start-up-code > pre {
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  webkit-box-sizing:border-box;
+  display:block; 
+  white-space: pre-wrap;  
+  white-space: -moz-pre-wrap; 
+  white-space: -pre-wrap; 
+  white-space: -o-pre-wrap; 
+  word-wrap: break-word; 
+  width:100%; 
+  overflow-x:auto;
+
+  background-color: #1D1F21;
+  color:#FFF;
+  line-height: 1.5;
+  font-size: 16px;
+  letter-spacing: 1px;
+
+  font-family: "Times New Roman", Times, serif;
+}
+
+.start-up-tip {
+  background-color: #87A2F7;
+  margin-left: 15px;
+  padding-left: 25px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-left: 15px solid #FBA860;
+  font-size: 18px;
+  font-style:italic;
+}
+
+.demos-list {
+  margin-top: 20px;
+  padding: 0;
+}
+
+.demo-box {
+  margin-top: 10px;
+  padding: 5px;
+  width: 220px;
+  height: 120px;
+  background-color: #DDDDDD;
+  overflow: auto;
+}
+
+.api-section {
+  margin-top: 5px;
+  border-bottom: 2px solid #EEEEEE;
+}
+
+.table {
+  border: 1px solid #DDDDDD;
+  word-break: break-word;
+}
+
+.font-header {
+  font-family: "Times New Roman",Times,serif,微软雅黑,宋体;
+}

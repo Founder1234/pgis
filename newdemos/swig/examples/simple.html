@@ -1,0 +1,13 @@
+{% extends '../views/layout.html' %} 
+
+{% block title %}Simple Map{% endblock %}
+
+{% block code %} 
+<body>
+    <div id="map" style="width:100%;height:100%;"></div>
+    <script>
+        var map = new EzMap('map');
+        map.showMapControl();
+    </script>
+</body>
+{% endblock %}

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>popup demo</title>
+    <link rel="stylesheet" type="text/css" href="../debug/EzServerClient.min.css">
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="assign.polyfill.js"></script>
+    <script type="text/javascript" src="../EzMapAPI.js"></script>
+    <script type="text/javascript" src="../debug/EzServerClient.js"></script>
+    <link rel="stylesheet" type="text/css" href="popup.css">
+    <style type="text/css">
+    .tt_btn {
+        background-color: #908787;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="map" style="width:80%;height:500px;"></div>
+    <button id="btn">Click</button>
+    <button id="btn2">Click2</button>
+    <script type="text/javascript">
+    var map = new EzMap('map');
+
+    map.showMapControl();
+
+    var l = new Ez.TileLayer.TDT('test','http://172.18.68.248:8080/Server7/Maps/D_441900DG',{
+        opacity: 0.95
+    });
+    map.addLayer(l);
+
+    //默认marker样式
+    //popup样式修改可以通过更改popup.css的默认样式来达到自定义popup的设计
+    var position = new EzCoord(113.807540921997,23.0478012008172);
+    // var position = new EzCoord(113.807582,23.047656);
+    var marker = new EzMarker(position);
+    map.addOverlay(marker);
+
+    var position2 = new EzCoord(116.34765, 39.84921);
+    var marker2 = new EzMarker(position2);
+    map.addOverlay(marker2);
+    // marker2.openInfoWindow("<div>我是一个marker</div>");
+
+    var position3 = new EzCoord(116.34966, 39.84921);
+    var marker3 = new EzMarker(position3);
+    map.addOverlay(marker3);
+    marker3.setOpacity(1);
+
+    var positionDiy = new EzCoord(116.44765, 39.94921);
+    var icon = new EzIcon({
+        src: '../images/marker-icon.png',
+        anchor: [0.5, 1],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'fraction',
+        scale: 1,
+        opacity: 1,
+        rotation: 15
+    });
+    var markerDiy = new EzMarker(positionDiy, icon, '热点对象');
+    map.addOverlay(markerDiy);
+
+    map.addMapEventListener(Ez.Event.MAP_MOUSEMOVE, function(evt) {
+        var pixel = evt.pixel;
+        var coords = evt.coordinate;
+        var marker = map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+            if (feature instanceof EzMarker) {
+                return feature;
+            }
+        });
+        if (marker) {
+            this.getViewport().style.cursor = 'pointer';
+        } else {
+            this.getViewport().style.cursor = '';
+        }
+    });
+
+    var strHTML1 = '<div><span>我是一个marker</span><button id="tt_btn" class="tt_btn">Click</button></div>';
+    var delegateFn = function(evt) {
+        if (evt.target.id === 'tt_btn') {
+            alert('hi');
+        }
+    };
+
+    var strHTML2 = '<div>我是一个marker</div><div style="background-color:red;width:100%;height:5px;">haha</div>'
+    var strhtml = strHTML1;
+    map.addMapEventListener(Ez.Event.MAP_CLICK, function(evt) {
+        var pixel = evt.pixel;
+        var coord = evt.coordinate;
+        var marker = map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+            if (feature instanceof EzMarker) {
+                return feature;
+            }
+        });
+        if (marker) {
+            //通过单击marker时打开popup
+            marker.openInfoWindow(strHTML1);
+        }
+    });
+
+    // document.getElementById('btn').addEventListener('click', function(evt) {
+    //     document.getElementById('map').style.width = '100%';
+    //     map.updateSize();
+    // });
+
+    // document.getElementById('btn2').addEventListener('click', function(evt) {
+    //     document.getElementById('map').style.width = '80%';
+    //     map.updateSize();
+    // });
+    </script>
+</body>
+
+</html>

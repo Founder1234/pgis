@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Animate To</title>
+	<link rel="stylesheet" type="text/css" href="../lib/EzServerClient.min.css">
+	<script type="text/javascript" src="../lib/EzMapAPI.js"></script>
+	<script type="text/javascript" src="../lib/EzServerClient.min.js"></script>
+	<style type="text/css">
+		body {
+			padding: 5;
+		}
+		p,pre {
+			margin: 0;
+			border: 0;
+		}
+		.start-up-code {
+		  padding-left: 15px;
+		  padding-top: 15px;
+		  padding-bottom: 15px;
+		  width: 80%;
+		  margin: 0 auto;
+		}
+
+		.start-up-code > p {
+		  background-color: #E18728;
+		  padding-left: 10px;
+		  font-size: 18px;
+		  font-weight: bold;
+		  line-height: 2;
+		  color: white;
+		}
+
+		.start-up-code > pre {
+		  padding-left: 5px;
+		  box-sizing:border-box;
+		  -moz-box-sizing:border-box;
+		  webkit-box-sizing:border-box;
+		  display:block; 
+		  white-space: pre-wrap;  
+		  white-space: -moz-pre-wrap; 
+		  white-space: -pre-wrap; 
+		  white-space: -o-pre-wrap; 
+		  word-wrap: break-word; 
+		  width:100%; 
+		  overflow-x:auto;
+
+		  background-color: #1D1F21;
+		  color:#FFF;
+		  line-height: 1.5;
+		  font-size: 16px;
+		  letter-spacing: 1px;
+
+		  font-family: "Times New Roman", Times, serif;
+		}
+	</style>
+</head>
+<body>
+	<div id="map" style="padding: 10px; border: 1px solid blue; width: 80%; height: 350px;margin: 0 auto;"></div>
+	<div style="margin-left: 10%; padding: 10px;">
+		<span>animate to: </span>
+		<select id="animatetype">
+			<option value="pan">平移</option>
+			<option value="fly">飞行</option>
+			<option value="spiral">盘旋</option>
+		</select>
+		<span>animate time: </span>
+		<input type="text" id="animateTime" value="">
+		<button id="animateto">animatetoShangHai</button>
+		<button id="centerto">centertoBeijing</button>
+	</div>
+	<br />
+	<hr width="80%" />
+	<div class="start-up-code">
+		<P>HTML</P>
+		<pre>
+			<code>
+&lt;!-- body部分,部署以及加载查看起步 --&gt;
+&lt;div id="map" style="padding: 10px; border: 1px solid blue; width: 80%; height: 350px;"&gt;&lt;/div&gt;
+&lt;div style="margin-left: 10%; padding: 10px;"&gt;
+	&lt;span&gt;animate to: &lt;/span&gt;
+	&lt;select id="animatetype"&gt;
+		&lt;option value="pan"&gt;平移&lt;/option&gt;
+		&lt;option value="fly"&gt;飞行&lt;/option&gt;
+		&lt;option value="spiral"&gt;盘旋&lt;/option&gt;
+	&lt;/select&gt;
+	&lt;span&gt;animate time: &lt;/span&gt;
+	&lt;input type="text" id="animateTime" value=""&gt;
+	&lt;button id="animateto"&gt;animatetoShangHai&lt;/button&gt;
+	&lt;button id="centerto"&gt;centertoBeijing&lt;/button&gt;
+&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+	var map = new EzMap('map');
+	map.showMapControl();
+
+	var locationBeijing   = new EzCoord(116.4551, 40.2539);
+	var locationShangeHai = new EzCoord(121.4648, 31.2891);
+
+	var animatebtn = document.getElementById("animateto");
+	animatebtn.addEventListener("click",function(){
+		var selectElement = document.getElementById("animatetype");
+		var type = selectElement[selectElement.selectedIndex].value;
+		var duration = document.getElementById("animateTime").value;
+		duration = (duration === "") ? 2000 : Number(duration);
+		map.animationTo(locationShangeHai,type,{
+			duration : duration
+		});
+	});
+
+	var centerbtn = document.getElementById("centerto");
+	centerbtn.addEventListener("click",function(){
+		map.centerAtLatlng(locationBeijing);
+	});
+&lt;/script&gt;
+			</code>
+		</pre>
+	</div>
+
+	<script type="text/javascript">
+		var map = new EzMap('map');
+		map.showMapControl();
+
+		var locationBeijing   = new EzCoord(116.4551, 40.2539);
+		var locationShangeHai = new EzCoord(121.4648, 31.2891);
+
+		var animatebtn = document.getElementById("animateto");
+		animatebtn.addEventListener("click",function(){
+			var selectElement = document.getElementById("animatetype");
+			var type = selectElement[selectElement.selectedIndex].value;
+			var duration = document.getElementById("animateTime").value;
+			duration = (duration === "") ? 2000 : Number(duration);
+			map.animationTo(locationShangeHai,type,{
+				duration : duration
+			});
+		});
+
+		var centerbtn = document.getElementById("centerto");
+		centerbtn.addEventListener("click",function(){
+			map.centerAtLatlng(locationBeijing);
+		});
+	</script>
+</body>
+</html>

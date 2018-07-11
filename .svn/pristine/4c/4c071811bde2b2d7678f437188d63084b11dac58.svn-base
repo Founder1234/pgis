@@ -1,0 +1,36 @@
+{% extends '../views/layout.html' %} 
+
+{% block title %}HTMLElementOverlay Demo{% endblock %}
+
+{% block head %}
+	<style type="text/css">
+		.divOverlay {
+			border: 1px solid #777373;
+			border-radius: 2px;
+			font-family: 微软雅黑,宋体;
+			font-size: 15px;
+		}
+		.divOverlay span {
+			background-color: green;
+		}
+	</style>
+{% endblock%}
+
+{% block code %} 
+<body>
+	<div id="map" style="width:100%;height:100%;"></div>
+
+	<script type="text/javascript">
+		var map = new EzMap('map');
+		
+		/**
+		 * HTMLElementOverlay类,canvas渲染下的DOM元素,更加简化的popup
+		 */
+		var strHtml = '<div class="divOverlay"><label id="test-content">我在这个地方：</label><span>test</span></div>';
+		var pos = new EzCoord(116.34765,39.94921);
+
+		var htmloverlay = new HTMLElementOverLay('test',pos,strHtml,[0,0],'center-center');
+		map.addOverlay(htmloverlay);
+	</script>
+</body>
+{% endblock %}

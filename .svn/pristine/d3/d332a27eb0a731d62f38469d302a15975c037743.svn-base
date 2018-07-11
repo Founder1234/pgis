@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Cicle Demo</title>
+    <link rel="stylesheet" href="../debug/EzServerClient.min.css">
+    <link rel="stylesheet" type="text/css" href="editCircle.css">
+    <script type="text/javascript" src="../EzMapAPI.js"></script>
+    <script type="text/javascript" src="../debug/EzServerClient.js"></script>
+    <style type="text/css">
+    #map {
+        margin: 0 auto;
+        width: 100%;
+        height: 500px;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <button id="add_edit">add Edit</button>
+    <button id="end_edit">end Edit</button>
+    <div id="content"></div>
+    <script type="text/javascript">
+    var map = new EzMap('map');
+
+    var circleOfEz = new Ez.g.Circle(new EzCoord(116.34765, 39.94921), 7000, {
+        'strokeColor': '#AC2222',
+        'strokeOpacity': 1,
+        'strokeWidth': 5,
+        'fillColor': '#EE0C0C',
+        'fillOpacity': 0.6
+    });
+    map.addOverlay(circleOfEz);
+
+    var addEditBtn = document.getElementById('add_edit');
+    var endEditBtn = document.getElementById('end_edit');
+
+    var edit;
+
+    // addEditBtn.addEventListener('click', function(evt) {
+    //     map.changeDragMode('');
+    // });
+
+    // endEditBtn.addEventListener('click', function(evt) {
+    //     edit.disposeAll(function(lastObject, newObject) {
+    //         var style = lastObject.getStyle();
+    //         newObject.setStyle(style);
+    //         map.addOverlay(newObject);
+    //         circleOfEz = newObject;
+    //         console.dir(circleOfEz.getMBR());
+    //     });
+    //     map.removeInteraction(edit);
+    // });
+
+    addEditBtn.addEventListener('click', function(evt) {
+        map.changeDragMode('editCircle', function(fc){
+            console.log(fc.getRadius());
+        }, circleOfEz, 'on',function(data){
+            console.log('up');
+        });
+    });
+
+    endEditBtn.addEventListener('click', function(evt) {
+        map.changeDragMode('editCircle', function(feature) {
+            console.log('end!');
+        }, circleOfEz, 'off');
+    });
+
+    function getUnique(nums) {
+        var u = {},
+            a = [];
+        for (var i = 0; i < nums.length; i++) {
+            if (u.hasOwnProperty(nums[i])) {
+                continue;
+            }
+            a.push(nums[i]);
+            u[nums[i]] = 1;
+        }
+        return a;
+    }
+    </script>
+</body>
+
+</html>

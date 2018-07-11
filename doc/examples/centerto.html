@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Center To</title>
+	<link rel="stylesheet" type="text/css" href="../lib/EzServerClient.min.css">
+	<script type="text/javascript" src="../lib/EzMapAPI.js"></script>
+	<script type="text/javascript" src="../lib/EzServerClient.min.js"></script>
+	<style type="text/css">
+		body {
+			padding: 5;
+		}
+		p,pre {
+			margin: 0;
+			border: 0;
+		}
+		.start-up-code {
+		  padding-left: 15px;
+		  padding-top: 15px;
+		  padding-bottom: 15px;
+		  width: 80%;
+		  margin: 0 auto;
+		}
+
+		.start-up-code > p {
+		  background-color: #E18728;
+		  padding-left: 10px;
+		  font-size: 18px;
+		  font-weight: bold;
+		  line-height: 2;
+		  color: white;
+		}
+
+		.start-up-code > pre {
+		  padding-left: 5px;
+		  box-sizing:border-box;
+		  -moz-box-sizing:border-box;
+		  webkit-box-sizing:border-box;
+		  display:block; 
+		  white-space: pre-wrap;  
+		  white-space: -moz-pre-wrap; 
+		  white-space: -pre-wrap; 
+		  white-space: -o-pre-wrap; 
+		  word-wrap: break-word; 
+		  width:100%; 
+		  overflow-x:auto;
+
+		  background-color: #1D1F21;
+		  color:#FFF;
+		  line-height: 1.5;
+		  font-size: 16px;
+		  letter-spacing: 1px;
+
+		  font-family: "Times New Roman", Times, serif;
+		}
+	</style>
+</head>
+<body>
+	<div id="map" style="padding: 10px; border: 1px solid blue; width: 80%; height: 350px;margin: 0 auto;"></div>
+	<div style="margin-left: 10%; padding: 10px;">
+		<span>center to: </span>
+		<select id="locationSelect">
+			<option value="116.4551,40.2539">北京</option>
+			<option value="121.4648,31.2891">上海</option>
+			<option value="117.4219,39.4189">天津</option>
+		</select>
+		<button id="centerto">go!</button>
+	</div>
+	<div style="margin-left: 10%; padding: 10px;">
+		<span>地理坐标: </span>
+		<input type="text" id="locationText" value="">
+		<span>地图缩放级别: </span>
+		<input type="text" id="zoomText" value="">
+		<button id="centerAndZoom">go!</button>
+	</div>
+	<div style="margin-left: 10%; padding: 10px;">
+		<span>地理围栏: </span>
+		<input type="text" id="boxText" value="">
+		<button id="centerAtMBR">go!</button>
+	</div>
+	<br />
+	<hr width="80%" />
+	<div class="start-up-code">
+		<P>HTML</P>
+		<pre>
+			<code>
+&lt;!-- body部分,部署以及加载查看起步 --&gt;
+&lt;div id="map" style="padding: 10px; border: 1px solid blue; width: 80%; height: 350px;"&gt;&lt;/div&gt;
+&lt;div style="margin-left: 10%; padding: 10px;"&gt;
+	&lt;span&gt;center to: &lt;/span&gt;
+	&lt;select id="locationSelect"&gt;
+		&lt;option value="116.4551,40.2539"&gt;北京&lt;/option&gt;
+		&lt;option value="121.4648,31.2891"&gt;上海&lt;/option&gt;
+		&lt;option value="117.4219,39.4189"&gt;天津&lt;/option&gt;
+	&lt;/select&gt;
+	&lt;button id="centerto"&gt;go!&lt;/button&gt;
+&lt;/div&gt;
+&lt;div style="margin-left: 10%; padding: 10px;"&gt;
+	&lt;span&gt;地理坐标: &lt;/span&gt;
+	&lt;input type="text" id="locationText" value=""&gt;
+	&lt;span&gt;地图缩放级别: &lt;/span&gt;
+	&lt;input type="text" id="zoomText" value=""&gt;
+	&lt;button id="centerAndZoom"&gt;go!&lt;/button&gt;
+&lt;/div&gt;
+&lt;div style="margin-left: 10%; padding: 10px;"&gt;
+	&lt;span&gt;地理围栏: &lt;/span&gt;
+	&lt;input type="text" id="boxText" value=""&gt;
+	&lt;button id="centerAtMBR"&gt;go!&lt;/button&gt;
+&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+	var map = new EzMap('map');
+	map.showMapControl();
+
+	var centertobtn = document.getElementById("centerto");
+	centertobtn.addEventListener('click',function(){
+		var selectelement = document.getElementById("locationSelect");
+		var posstr = selectelement[selectelement.selectedIndex].value;
+		var tempArr = posstr.split(',');
+		var coord = new EzCoord(tempArr[0],tempArr[1]);
+		map.centerAtLatlng(coord);
+	});
+
+	var centerandzoombtn = document.getElementById("centerAndZoom");
+	centerandzoombtn.addEventListener("click",function(){
+		var locationText = document.getElementById("locationText").value;
+		locationText = (locationText === "") ? [0,0] : locationText.split(',');
+		var coord = new EzCoord(locationText[0],locationText[1]);
+		var zoomText = document.getElementById("zoomText").value;
+		zoomText = (zoomText === "") ? 5 : Number(zoomText);
+		map.centerAndZoom(coord,zoomText);
+	});
+
+	var centeratmbrbtn = document.getElementById("centerAtMBR");
+	centeratmbrbtn.addEventListener("click",function(){
+		var boxText = document.getElementById("boxText").value;
+		boxText = (boxText === '') ? [116.4551,39.4189,117.4219,39.4189,40.2539] : boxText.split(',');
+		var mbr = new EzMBR(boxText[0],boxText[1],boxText[2],boxText[3]);
+		map.centerAtMBR(mbr);
+	});
+&lt;/script&gt;
+			</code>
+		</pre>
+	</div>
+
+	<script type="text/javascript">
+		var map = new EzMap('map');
+		map.showMapControl();
+
+		var centertobtn = document.getElementById("centerto");
+		centertobtn.addEventListener('click',function(){
+			var selectelement = document.getElementById("locationSelect");
+			var posstr = selectelement[selectelement.selectedIndex].value;
+			var tempArr = posstr.split(',');
+			var coord = new EzCoord(tempArr[0],tempArr[1]);
+			map.centerAtLatlng(coord);
+		});
+
+		var centerandzoombtn = document.getElementById("centerAndZoom");
+		centerandzoombtn.addEventListener("click",function(){
+			var locationText = document.getElementById("locationText").value;
+			locationText = (locationText === "") ? [0,0] : locationText.split(',');
+			var coord = new EzCoord(locationText[0],locationText[1]);
+			var zoomText = document.getElementById("zoomText").value;
+			zoomText = (zoomText === "") ? 5 : Number(zoomText);
+			map.centerAndZoom(coord,zoomText);
+		});
+
+		var centeratmbrbtn = document.getElementById("centerAtMBR");
+		centeratmbrbtn.addEventListener("click",function(){
+			var boxText = document.getElementById("boxText").value;
+			boxText = (boxText === '') ? [116.4551,39.4189,117.4219,39.4189,40.2539] : boxText.split(',');
+			var mbr = new EzMBR(boxText[0],boxText[1],boxText[2],boxText[3]);
+			map.centerAtMBR(mbr);
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+{% extends '../views/layout.html' %} 
+
+{% block title %}MapEvent Demo{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="css/popup.css">
+{% endblock %}
+
+{% block code %} 
+<body>
+	<div id="map" style="width:100%;height:100%;"></div>
+
+	<script type="text/javascript">
+		var map = new EzMap('map');
+		
+		/** 由于客户端使用canvas渲染技术，因此，除了map以外，没有DOM元素来提供鼠标事件监听，所有的要素捕捉都是通过map的forEachFeatureAtPixel函数，经过像素计算判断叠加要素 */
+
+		var position = new EzCoord(116.24765,39.94921);
+		var marker = new EzMarker(position);
+		map.addOverlay(marker);
+
+		map.addMapEventListener(Ez.Event.MAP_MOUSEMOVE,function(evt){
+			var pixel = evt.pixel;
+			var marker = map.forEachFeatureAtPixel(pixel,function(feature,layer){
+				if (feature instanceof EzMarker) {
+					return feature;
+				}
+			});
+			if (marker) {
+				this.getViewport().style.cursor = 'pointer';
+			} else {
+				this.getViewport().style.cursor = '';
+			}
+		},map);
+
+		var strHTML = '<div>我是一个marker</div>';
+		map.addMapEventListener(Ez.Event.MAP_CLICK,function(evt){
+			var pixel = evt.pixel;
+			var coord = evt.coordinate;
+			var marker = map.forEachFeatureAtPixel(pixel,function(feature,layer){
+				if (feature instanceof EzMarker) {
+					return feature;
+				}
+			});
+			if (marker) {
+				//通过单击marker时打开popup
+				marker.openInfoWindow(strHTML);
+			}
+		},map);
+	</script>
+</body>
+{% endblock %}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dynamic Tile Layer</title>
+    <link rel="stylesheet" href="../debug/EzServerClient.min.css">
+    <link rel="stylesheet" type="text/css" href="popup.css">
+    <script type="text/javascript" src="assign.polyfill.js"></script>
+    <script type="text/javascript" src="../EzMapAPI.js?key=121212"></script>
+    <script type="text/javascript" src="../debug/EzServerClient.js"></script>
+    <style type="text/css">
+    html,
+    body {
+        padding: 0;
+        margin: 0;
+    }
+    
+    #map {
+        background: #9ACAF9;
+        background-image: linear-gradient(hsla(0, 0%, 100%, .7) 2px, transparent 0), linear-gradient(90deg, hsla(0, 0%, 100%, .7) 2px, transparent 0), linear-gradient(hsla(0, 0%, 100%, .3) 1px, transparent 0), linear-gradient(90deg, hsla(0, 0%, 100%, .3) 1px, transparent 0);
+        background-size: 256px 256px, 256px 256px, 16px 16px, 16px 16px;
+    }
+    </style>
+</head>
+<body>
+    <div id="map" style="width:100%;height:500px"></div>
+    <script type="text/javascript">
+    var map = new EzMap('map');
+    map.centerAtLatlng(new EzCoord(119.95546817779541, 31.779541969299313));
+
+    var group = new EzLayerGroup({
+        layers: []
+    });
+    map.addLayer(group);
+
+    function loadTileFn(imageTile,src){
+        var d = Date.now();
+        imageTile.getImage().src = src + '&t=' + d;
+    }
+
+    var dynamicLayerFn = function(str) {
+        return new EzTileLayerTDT('dynamic layer','http://172.25.18.16:8081/EzServer7/Maps/traffic' + str,{
+            crs: '4326',
+            cacheSize: 0,
+            opacity: 0.7,
+            minResolution: 0.0000858306884765625,
+            maxResolution: 0.0054931640625,
+            imageSRC: '../images/shiliang.png',
+            tileLoadFunction: loadTileFn
+        });
+    }
+
+    var count = 1;
+    
+    group.push(dynamicLayerFn(count));
+
+    count++;
+
+    window.setInterval(function(){
+        group.clear();
+        group.push(dynamicLayerFn(count++));
+        if (count > 10) count = 1;
+        map.render();
+    },7000);
+
+    </script>
+</body>
+</html>

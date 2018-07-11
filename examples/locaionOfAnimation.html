@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pos Animation</title>
+    <link rel="stylesheet" type="text/css" href="../debug/EzServerClient.min.css">
+    <script type="text/javascript" src="../debug/EzServerClient.js"></script>
+</head>
+
+<body>
+    <div id="map" style="width:100%;height:500px;"></div>
+    <button id="pan_to_newLocation" class="btn">平移到</button>
+    <button id="fly_to_newLocation" class="btn">飞行到</button>
+    <button id="spiral_to_newLocation" class="btn">旋转到</button>
+    <script type="text/javascript">
+    var layer = new EzTileLayer('天地图', 'http://172.18.68.86:7002/PGIS_S_TileMapServer/Maps/sltdt/EzMap?Service=getImage&Type=RGB&ZoomOffset=0&Col={x}&Row={y}&Zoom={z}&V=0.3', {
+        projection: 'EPSG:4326'
+    });
+
+    var map = new EzMap('map', {
+        mapCenter: /*[12955004.007317428, 4849848.576024223]*/ [116.34765, 39.94921],
+        mapInitLevel: 10,
+        /** 如果要使用map.animationTo动画定位功能需要增加下面参数，保证提前加载瓦片 */
+        loadTilesWhileAnimating: true,
+        projection: 'EPSG:4326'
+    });
+
+    map.addLayer(layer);
+
+    var newlocation = new EzCoord(114.523807, 38.046912);
+    /** pan to 石家庄 */
+    var btn_pan = document.getElementById('pan_to_newLocation');
+    btn_pan.addEventListener('click', function() {
+        map.animationTo(newlocation, 'pan', {
+            /*默认情况下时效为2000毫秒*/
+            'duration': 5000
+        });
+    });
+    /* fly to 石家庄 */
+    var btn_fly = document.getElementById('fly_to_newLocation');
+    btn_fly.addEventListener('click', function() {
+        map.animationTo(newlocation, 'fly', {
+            /*默认情况下时效为2000毫秒*/
+            'duration': 5000
+        });
+    });
+    /** spiral to 石家庄 */
+    var buttonOfSpiral = document.getElementById('spiral_to_newLocation');
+    buttonOfSpiral.addEventListener('click', function() {
+        map.animationTo(newlocation, 'spiral', {
+            /*默认情况下时效为2000毫秒*/
+            'duration': 5000
+        });
+    });
+    </script>
+</body>
+
+</html>

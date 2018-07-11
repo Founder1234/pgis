@@ -1,0 +1,5 @@
+/**
+ * @namespace
+ */
+var Ez = {
+};

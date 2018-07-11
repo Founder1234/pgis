@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Measure Demo</title>
+    <link rel="stylesheet" type="text/css" href="../debug/EzServerClient.min.css">
+    <script type="text/javascript" src="../EzMapAPI.js"></script>
+    <script type="text/javascript" src="../debug/EzServerClient.js"></script>
+</head>
+
+<body>
+    <div id="map" style="width:100%;height:500px"></div>
+    <button id="line">line</button>
+    <button id="measure">measure</button>
+    <button></button>
+    <script type="text/javascript">
+    var _mapApp = new EzMap('map');
+
+    // map.changeDragMode('measureArea', function(data) {
+    //     console.log(data.value);
+    // });
+
+    document.getElementById('line').addEventListener('click', function() {
+        _mapApp.changeDragMode('drawPolyline', function(data) {
+            console.log(data);
+        });
+    });
+
+    document.getElementById('measure').addEventListener('click', function() {
+        _mapApp.changeDragMode('measureLine', function(data) {
+            console.log(data);
+        });
+    });
+    </script>
+</body>
+
+</html>

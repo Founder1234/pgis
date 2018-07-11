@@ -1,0 +1,56 @@
+{% extends '../views/layout.html' %} 
+
+{% block title %}Custom Marker{% endblock %}
+
+{% block code %} 
+<body>
+	<div id="map" style="width: 100%; height: 100%;"></div>
+
+	<script type="text/javascript">
+		var map = new EzMap('map');
+		
+		/**
+		 * custom marker 1
+		 */
+		var position1 = new EzCoord(116.14765,39.94921);
+		var icon1 = new EzIcon({
+			src: '../images/hotspot.png',
+			anchor: [0.5, 1],
+    		anchorXUnits: 'fraction',
+    		anchorYUnits: 'fraction',
+			opacity: 1
+		});
+		var marker1 = new EzMarker(position1,icon1);
+		map.addOverlay(marker1);
+
+		/**
+		 * custom marker 2 图标不同
+		 */
+		var position2 = new EzCoord(116.44765,39.94921);
+		var icon2 = new EzIcon({
+			src: '../images/test_marker.png',
+			anchor: [0.5, 1],
+    		anchorXUnits: 'fraction',
+    		anchorYUnits: 'fraction',
+			opacity: 1
+		});
+		var marker2 = new EzMarker(position2,icon2);
+		map.addOverlay(marker2);
+
+		/**
+		 * custom marker 2 比例与透明度均不同
+		 */
+		var position3 = new EzCoord(116.74765,39.94921);
+		var icon3 = new EzIcon({
+			src: '../images/test_marker.png',
+			anchor: [0.5, 1],
+    		anchorXUnits: 'fraction',
+    		anchorYUnits: 'fraction',
+    		scale: 3,
+			opacity: 0.5
+		});
+		var marker3 = new EzMarker(position3,icon3);
+		map.addOverlay(marker3);
+	</script>
+</body>
+{% endblock %}

@@ -1,0 +1,22 @@
+<script>
+var element = document.getElementById('CodeMirror');
+var mixedMode = {
+    name: "htmlmixed",
+    scriptTypes: [{
+        matches: /\/x-handlebars-template|\/x-mustache/i,
+        mode: null
+    }, {
+        matches: /(text|application)\/(x-)?vb(a|script)/i,
+        mode: "vbscript"
+    }]
+};
+var editor = CodeMirror.fromTextArea(element, {
+    mode: mixedMode,
+    lineWrapping: true,
+    scrollbarStyle: "simple",
+    styleActiveLine: true,
+    tabMode: 'indent',
+    indentUnit: 1,
+    autoCloseTags: true
+});
+</script>

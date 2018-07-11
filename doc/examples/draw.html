@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Dynamic Draw</title>
+	<link rel="stylesheet" type="text/css" href="../lib/EzServerClient.min.css">
+	<script type="text/javascript" src="../lib/EzMapAPI.js"></script>
+	<script type="text/javascript" src="../lib/EzServerClient.min.js"></script>
+	<style type="text/css">
+		body {
+			padding: 5;
+		}
+		p,pre {
+			margin: 0;
+			border: 0;
+		}
+		.start-up-code {
+		  padding-left: 15px;
+		  padding-top: 15px;
+		  padding-bottom: 15px;
+		  width: 80%;
+		  margin: 0 auto;
+		}
+
+		.start-up-code > p {
+		  background-color: #E18728;
+		  padding-left: 10px;
+		  font-size: 18px;
+		  font-weight: bold;
+		  line-height: 2;
+		  color: white;
+		}
+
+		.start-up-code > pre {
+		  padding-left: 5px;
+		  box-sizing:border-box;
+		  -moz-box-sizing:border-box;
+		  webkit-box-sizing:border-box;
+		  display:block; 
+		  white-space: pre-wrap;  
+		  white-space: -moz-pre-wrap; 
+		  white-space: -pre-wrap; 
+		  white-space: -o-pre-wrap; 
+		  word-wrap: break-word; 
+		  width:100%; 
+		  overflow-x:auto;
+
+		  background-color: #1D1F21;
+		  color:#FFF;
+		  line-height: 1.5;
+		  font-size: 16px;
+		  letter-spacing: 1px;
+
+		  font-family: "Times New Roman", Times, serif;
+		}
+	</style>
+</head>
+<body>
+	<div id="map" style="padding: 10px; border: 1px solid blue; width: 80%; height: 350px;margin: 0 auto;"></div>
+	<div style="margin-left: 10%; padding: 10px;">
+		<span>draw type: </span>
+		<select id="drawtype">
+			<option value="drawPoint">点</option>
+			<option value="drawPolyline">多义线</option>
+			<option value="drawCircle">圆</option>
+			<option value="drawPolygon">多边形</option>
+			<option value="drawRect">矩形</option>
+		</select>
+		<button id="drawbtn">go!</button>
+	</div>
+	<br />
+	<hr width="80%" />
+	<div class="start-up-code">
+		<P>HTML</P>
+		<pre>
+			<code>
+&lt;!-- body部分,部署以及加载查看起步 --&gt;
+&lt;div id="map" style="padding: 10px; border: 1px solid blue; width: 80%; height: 350px;"&gt;&lt;/div&gt;
+&lt;div style="margin-left: 10%; padding: 10px;"&gt;
+	&lt;span&gt;draw type: &lt;/span&gt;
+	&lt;select id="drawtype"&gt;
+		&lt;option value="drawPoint"&gt;点&lt;/option&gt;
+		&lt;option value="drawPolyline"&gt;多义线&lt;/option&gt;
+		&lt;option value="drawCircle"&gt;圆&lt;/option&gt;
+		&lt;option value="drawPolygon"&gt;多边形&lt;/option&gt;
+		&lt;option value="drawRect"&gt;矩形&lt;/option&gt;
+	&lt;/select&gt;
+	&lt;button id="drawbtn"&gt;go!&lt;/button&gt;
+&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+	var map = new EzMap('map');
+	
+	var drawbtn = document.getElementById("drawbtn");
+	drawbtn.addEventListener("click",function(){
+		var selectElement = document.getElementById("drawtype");
+		var type = selectElement[selectElement.selectedIndex].value;
+		map.changeDragMode(type,function(/** feature为Ez.g.*要素类 */feature){
+			/** 一般双击鼠标左键结束绘制,回调参数为动态绘制的要素,可以在回调中进行余下操作,例如，增加绘制要素到地图上. */
+			map.addOverlay(feature);
+		});
+	});
+&lt;/script&gt;
+			</code>
+		</pre>
+	</div>
+
+	<script type="text/javascript">
+		var map = new EzMap('map');
+		
+		var drawbtn = document.getElementById("drawbtn");
+		drawbtn.addEventListener("click",function(){
+			var selectElement = document.getElementById("drawtype");
+			var type = selectElement[selectElement.selectedIndex].value;
+			map.changeDragMode(type,function(/** feature为Ez.g.*要素类 */feature){
+				/** 一般双击鼠标左键结束绘制,回调参数为动态绘制的要素,可以在回调中进行余下操作,例如，增加绘制要素到地图上. */
+				map.addOverlay(feature);
+			});
+		});
+	</script>
+</body>
+</html>

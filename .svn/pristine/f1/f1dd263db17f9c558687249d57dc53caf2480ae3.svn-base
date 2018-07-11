@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Draggable Point Demo</title>
+    <link rel="stylesheet" type="text/css" href="../lib/EzServerClient.min.css">
+    <script type="text/javascript" src="../lib/EzMapAPI.js"></script>
+    <script type="text/javascript" src="../lib/EzServerClient.min.js"></script>
+    <style type="text/css">
+    body, html {width: 100%;height: 80%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+    </style>
+</head>
+<body>
+	<div id="map" style="width:100%;height:90%;"></div>
+	<div>
+		<span>拖拽控制: </span>
+        <button id="dragstart">Begin Drag</button>
+		<button id="dragend">End Drag</button>
+	</div>
+	
+	<script type="text/javascript">
+		var map = new EzMap('map');
+		
+		var dragstartbtn = document.getElementById("dragstart");
+        var dragendbtn = document.getElementById("dragend");
+
+        // 新建Point
+        var position = new EzCoord(116.35765, 39.89921);
+        var point = new Ez.g.Point(position,undefined,{
+            draggable: true
+        });
+        map.addOverlay(point);
+		// 点击按钮开始拖拽
+        dragstartbtn.addEventListener("click",function(e){
+            map.draggable();
+        });
+        // 点击按钮结束拖拽
+        dragendbtn.addEventListener("click",function(e){
+            map.disdraggable();
+        });
+	</script>
+</body>
+</html>

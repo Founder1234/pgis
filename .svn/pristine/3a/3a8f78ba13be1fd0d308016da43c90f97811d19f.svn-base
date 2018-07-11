@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ol3_Simple</title>
+    <link rel="stylesheet" href="../debug/EzServerClient.min.css">
+    <link rel="stylesheet" type="text/css" href="popup.css">
+    <script type="text/javascript" src="assign.polyfill.js"></script>
+    <script type="text/javascript" src="../EzMapAPI.js?key=121212"></script>
+    <script type="text/javascript" src="../debug/EzServerClient.js"></script>
+    <style type="text/css">
+    .ez-popup-test {
+        background-color: white;
+        width: 100px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="map" style="width:100%;height:500px"></div>
+    <div id="test"></div>
+    <div style="margin-left: 10%; padding: 10px;">
+        <button id="showMapControl">显示地图控件</button>
+        <button id="hideMapControl">隐藏地图控件</button>
+    </div>
+    <script type="text/javascript">
+    var umap = new EzMap('map');
+    var scale = new Ez.controls.ScaleLine();
+    umap.addControl(scale);
+
+    var overview = new Ez.controls.Overview();
+    umap.addControl(overview);
+
+    var heatmapUrl = 'http://172.18.68.145:8080/EzPOISearchS142/PoiWMTSV1?layer=PGIS_GUANGZHOU_POI_PT&style=default&tilematrixset=d&Service=WMTS&Request=GetTile&Version=1.0.0&Format=hot&TileMatrix={z}&TileCol={x}&TileRow={y}';
+    var heatmap = new EzTileLayerXYZ('heatmap', heatmapUrl, {
+        projection: 'EPSG:4326'
+    });
+
+    heatmap.set('layerType', 'overlay');
+    // map.addLayerToContainer(heatmap, map.getTileLayerOverlayLayers());
+
+    // map.centerAtLatlng(new EzCoord(113.30268859863281, 23.110084533691406));
+
+    var features = [];
+    populate(5000, umap);
+
+
+    function getRandomLatLng(map) {
+        var bounds = map.getView().calculateExtent(map.getSize()),
+            southWest = [bounds[0], bounds[1]],
+            northEast = [bounds[2], bounds[3]],
+            lngSpan = northEast[0] - southWest[0],
+            latSpan = northEast[1] - southWest[1];
+
+        return new EzCoord(
+            southWest[0] + lngSpan * Math.random(),
+            southWest[1] + latSpan * Math.random());
+    }
+
+    function populate(num, map) {
+        for (var i = 0; i < num; i++) {
+            var m = new EzMarker(getRandomLatLng(map));
+            features.push(m);
+        }
+    }
+
+    // var source = new ol.source.Vector();
+
+    // var clusterSource = new ol.source.Cluster({
+    //     distance: 40,
+    //     source: source
+    // });
+
+    // var styleCache = {};
+    // var clusters = new ol.layer.Vector({
+    //     source: clusterSource,
+    //     style: function(feature) {
+    //         var size = feature.get('features').length;
+    //         var style = styleCache[size];
+    //         if (!style) {
+    //             style = new ol.style.Style({
+    //                 image: new ol.style.Circle({
+    //                     radius: 10,
+    //                     stroke: new ol.style.Stroke({
+    //                         color: '#fff'
+    //                     }),
+    //                     fill: new ol.style.Fill({
+    //                         color: '#3399CC'
+    //                     })
+    //                 }),
+    //                 text: new ol.style.Text({
+    //                     text: size.toString(),
+    //                     fill: new ol.style.Fill({
+    //                         color: '#fff'
+    //                     })
+    //                 })
+    //             });
+    //             styleCache[size] = style;
+    //         }
+    //         return style;
+    //     }
+    // });  
+    // 
+
+    var testvectore = new Ez.Layer.Cluster({
+        cluster: {
+            distance: 200
+        },
+        type: 'default'
+    });
+    testvectore.addData(features);
+    umap.addLayer(testvectore);
+
+    var strHTML2 = '<div>我是一个marker</div><div style="background-color:red;width:100%;height:5px;">haha</div>'
+    umap.addMapEventListener(Ez.Event.MAP_CLICK, function(evt) {
+        var pixel = evt.pixel;
+        var coord = evt.coordinate;
+        var marker = map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+            if (feature instanceof EzMarker) {
+                return feature;
+            }
+        });
+        if (marker) {
+            //通过单击marker时打开popup
+            var pos = marker.getPoint();
+            umap.openInfoWindow(strHTML2, pos, {
+                offsetY: -46
+            });
+        }
+    });
+
+    // var popup = document.createElement('div');
+    // popup.innerHTML = "<p>test</p>";
+    // popup.className = "ez-popup-test";
+
+    // var overlay = new ol.Overlay({
+    //     element: popup,
+    //     positioning: 'bottom-center',
+    //     offset: [0, -44]
+    // });
+    // overlay.setPosition([116.34765, 39.94921]);
+    // map.addOverlay(overlay, true);
+
+    // map.addMapEventListener(Ez.Event.MAP_PAN, function(evt) {
+    //     console.log("Map Drag!");
+    // });
+
+    // map.addMapEventListener(Ez.Event.MAP_PANEND, function(ect) {
+    //     console.log("Map Paned Event1!");
+    //     //map.centerAtLatlng(new EzCoord(116.34765, 39.94921));
+    // });
+
+    // map.on('postcompose', function(event) {
+    //     console.log('postcompose!');
+    // });
+
+    // var marker2 = new EzMarker(new EzCoord(116.55765, 39.94921));
+    // map.addOverlay(marker2);
+
+    // var html5 = new HTMLElementOverLay('test', new EzCoord(116.34765, 39.74921), "<div>Test</div>", [-100, 10]);
+    // umap.addOverlay(html5);
+
+    var marker = new EzMarker(new EzCoord(116.34765, 39.74921), undefined, undefined, {
+        draggable: true
+    });
+
+    marker.on('dragstart', function(e) {
+        console.dir(e);
+    });
+
+    marker.on('dragend', function(e) {
+        console.dir(e);
+    });
+
+    // umap.addOverlay(marker);
+    umap.draggable();
+    //停止拖拽
+    //map.disdraggable();
+
+    //var coordinates = '116.34765,39.74921,116.55,39.94921';
+    // var coords = [];
+    // coords.push(new EzCoord(116.34765, 39.94921));
+    // coords.push(new EzCoord(116.55, 39.94921));
+    // coords.push(new EzCoord(116.55, 39.74921));
+    // coords.push(new EzCoord(116.34765, 39.74921));
+    // var polygon = new Polygon('116.34765,39.74921,116.55,39.74921,116.55,39.94921,116.34765,39.94921');
+    // map.addOverlay(polygon);
+
+    var line = new Polyline('116.34765,39.74921,116.25,39.75921');
+    umap.addOverlay(line);
+    line.addArrowHead({
+        fill: '#F12929',
+        stroke: '#F12929',
+        radius: 5
+    });
+    umap.centerAtLatlng(new EzCoord(116.34765, 39.74921));
+
+    // map.addMapEventListener(Ez.Event.MAP_MOUSEOUT, function(e) {
+    //     alert("out");
+    // });
+
+
+    // var mcoord1 = new EzCoord(116.34765, 39.94921);
+    // var m1 = new EzMarker(mcoord1);
+    // map.addOverlay(m1);
+
+    // m1.openInfoWindow("<p>test</p>");
+
+    // map.changeDragMode('drawRect',function(feature){
+    //  console.log(feature.coordString);
+    // });
+
+    // document.getElementById("showMapControl").addEventListener("click", function() {
+    //     map.showMapControl();
+    // });
+
+    // document.getElementById("hideMapControl").addEventListener("click", function() {
+    //     map.hideMapControl();
+    // });
+
+    // var moveFeature = function(event) {
+    //     var vectorContext = event.vectorContext;
+    //     var frameState = event.frameState;
+
+    //     if (animating) {
+    //         var elapsedTime = frameState.time - now;
+    //         // here the trick to increase speed is to jump some indexes
+    //         // on lineString coordinates
+    //         var index = Math.round(speed * elapsedTime / 1000);
+
+    //         if (index >= routeLength) {
+    //             stopAnimation(true);
+    //             return;
+    //         }
+
+    //         var currentPoint = new ol.geom.Point(routeCoords[index]);
+    //         var feature = new ol.Feature(currentPoint);
+    //         vectorContext.drawFeature(feature, styles.geoMarker);
+    //     }
+    //     // tell OL3 to continue the postcompose animation
+    //     map.render();
+    // };
+
+    // function startAnimation() {
+    //     if (animating) {
+    //         stopAnimation(false);
+    //     } else {
+    //         animating = true;
+    //         now = new Date().getTime();
+    //         speed = speedInput.value;
+    //         startButton.textContent = 'Cancel Animation';
+    //         // hide geoMarker
+    //         geoMarker.setStyle(null);
+    //         // just in case you pan somewhere else
+    //         map.getView().setCenter(center);
+    //         map.on('postcompose', moveFeature);
+    //         map.render();
+    //     }
+    // }
+
+
+    // /**
+    //  * @param {boolean} ended end of animation.
+    //  */
+    // function stopAnimation(ended) {
+    //     animating = false;
+    //     startButton.textContent = 'Start Animation';
+
+    //     // if animation cancelled set the marker at the beginning
+    //     var coord = ended ? routeCoords[routeLength - 1] : routeCoords[0];
+    //     /** @type {ol.geom.Point} */
+    //     (geoMarker.getGeometry())
+    //     .setCoordinates(coord);
+    //     //remove listener
+    //     map.un('postcompose', moveFeature);
+    // }
+    </script>
+</body>
+
+</html>

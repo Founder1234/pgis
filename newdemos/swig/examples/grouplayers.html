@@ -1,0 +1,35 @@
+{% extends '../views/layout.html' %} 
+
+{% block title %}Group Layers Demo{% endblock %}
+
+{% block code %} 
+<body>
+    <div id="map" style="width:100%;height:90%;"></div>
+    
+    <script>
+        var map = new EzMap('map');
+        
+        //删除EzMapAPI中配置的原始图层
+        var tileLayers = map.getTileLayers().getLayers();
+        tileLayers.clear();
+
+        //TDT官网URL配置
+        var tdtimageurl = 'http://t0.tianditu.com/vec_c/wmts?layer=vec&style=default&tilematrixset=c&Service=WMTS&Request=GetTile&Version=1.0.0&Format=tiles&TileMatrix={z}&TileCol={x}&TileRow={y}';
+        var tdtAnnotationurl = 'http://t0.tianditu.com/cva_c/wmts?layer=cva&style=default&tilematrixset=c&Service=WMTS&Request=GetTile&Version=1.0.0&Format=tiles&TileMatrix={z}&TileCol={x}&TileRow={y}';
+
+        //使用XYZ格式图层加载TDT地图数据服务
+        var tdtimage = new EzTileLayerXYZ('tdtImage', tdtimageurl, {
+            projection: 'EPSG:4326'
+        });
+        var tdtannotation = new EzTileLayerXYZ('tdtAnnotation', tdtAnnotationurl, {
+            projection: 'EPSG:4326'
+        });
+
+        //使用图层组合并上面两个图层(注记+图层),Note:图层向下放在数组的首位
+        var tdtgroup = new EzLayerGroup({
+            layers: [tdtimage, tdtannotation]
+        });
+        map.addLayer(tdtgroup);
+    </script>
+</body>
+{% endblock %} 

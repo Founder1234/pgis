@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ez_Marker</title>
+    <link rel="stylesheet" href="../debug/EzServerClient.min.css">
+    <link rel="stylesheet" type="text/css" href="popup.css">
+    <script type="text/javascript" src="assign.polyfill.js"></script>
+    <script type="text/javascript" src="../EzMapAPI.js"></script>
+    <script type="text/javascript" src="../debug/EzServerClient.js"></script>
+</head>
+
+<body>
+    <div id="map" style="width:100%;height:500px"></div>
+    <script type="text/javascript">
+    var map = new EzMap('map', {
+        appkeys: ['1', '2']
+    });
+    map.showMapControl();
+
+    var polyline = new Polyline("118.7789011001587,32.07132339477539,118.77898693084718,32.06960678100586,118.77924442291261,32.06076622009277,118.77263545989992,32.0665168762207,118.7719488143921,32.06677436828613,118.76971721649171,32.06411361694336,118.76911640167238,32.063941955566406,118.76945972442628,32.063255310058594,118.76963138580324,32.06205368041992,118.76945972442628,32.06110954284668,118.76885890960695,32.056732177734375,118.77040386199953,32.05312728881836,118.77126216888429,32.05192565917969,118.7789011001587,32.05235481262207,118.78181934356691,32.05209732055664,118.78327846527101,32.04986572265625,118.7837076187134,32.04986572265625,118.78456592559816,32.05192565917969,118.78207683563234,32.05218315124512,118.77229213714601,32.05209732055664,118.76628398895265,32.053728103637695,118.76456737518312,32.0511531829834,118.76182079315187,32.049522399902344,118.76070499420167,32.04943656921387,118.75718593597414,32.05055236816406,118.75392436981203,32.05063819885254,118.75100612640382,32.04814910888672,118.75409603118898,32.04634666442871,118.75564098358156,32.04557418823242,118.7569284439087,32.04445838928223,118.75855922698976,32.04317092895508,118.75941753387453,32.041969299316406,118.76001834869386,32.04085350036621,118.7606191635132,32.03965187072754,118.76156330108644,32.037248611450195,118.7620782852173,32.03536033630371,118.76224994659425,32.03381538391113,118.76182079315187,32.03261375427246,118.75100612640382,32.035531997680664,118.75237941741945,32.0390510559082,118.75203609466554,32.03956604003906,118.74868869781496,32.03956604003906,118.74800205230714,32.03990936279297,118.74894618988039,32.041282653808594,118.7481737136841,32.04317092895508,118.74765872955324,32.04557418823242,118.74645709991456,32.04668998718262,118.74619960784914,32.04789161682129,118.75092029571535,32.04780578613281,118.74722957611085,32.050724029541016,118.74637126922609,32.04832077026367,118.75092029571535,32.047719955444336,118.75392436981203,32.05029487609863,118.75735759735109,32.05055236816406,118.76036167144777,32.04943656921387,118.76310825347902,32.0496940612793,118.76491069793703,32.05080986022949,118.76628398895265,32.04943656921387,118.76697063446046,32.0496940612793,118.76800060272218,32.047462463378906,118.76963138580324,32.04832077026367,118.77109050750734,32.048492431640625,118.77280712127687,32.049007415771484,118.77847194671632,32.048234939575195,118.7829351425171,32.04686164855957,118.78362178802492,32.046775817871094,118.78482341766359,32.05218315124512,118.78542423248292,32.056217193603516,118.78576755523683,32.06016540527344,118.78250598907472,32.06050872802735,118.78199100494386,32.06050872802735,118.781476020813,32.06600189208985,118.78061771392824,32.06720352172852,118.7785577774048,32.06694602966309,118.77898693084718,32.071409225463874", {
+        strokeColor: '#2862F5',
+        strokeWidth: 3
+    });
+    map.addOverlay(polyline);
+    var points = polyline.getPoints();
+
+    var firstPoint = new EzCoord(points[0][0], points[0][1]);
+    var icon = new EzIcon({
+        src: '../images/car.png',
+        anchor: [0.5, 0.5],
+        size: [48, 24],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'fraction',
+        opacity: 1
+    });
+    var markerDiy = new EzMarker(firstPoint, icon);
+    map.addOverlay(markerDiy);
+    map.centerAndZoom(firstPoint, 12);
+
+    var index = 1;
+
+    function generateTransitions(destPoint) {
+        var currentPoint = markerDiy.getPoint();
+        var currentRotate = markerDiy.getRotate();
+        var start = currentPoint.getCoordinate();
+        var end = destPoint.getCoordinate();
+        var rotate = new Ez.animation.Rotate(0, 'rotation', currentRotate, rotationCalc(start, end));
+        var translate = new Ez.animation.Translate(2000, "position", currentPoint, destPoint);
+        var sequence = new Ez.animation.Sequence(markerDiy, [rotate, translate]);
+        sequence.setRefreshController(map);
+        return sequence;
+    }
+
+    function handlePlay() {
+        if (index >= points.length) return;
+        var destPoint = new EzCoord(points[index][0], points[index][1]);
+        var seq = generateTransitions(destPoint);
+        seq.on('animation:end', function(e) {
+            index++;
+            handlePlay();
+        });
+        seq.play();
+    }
+
+    handlePlay();
+
+    // var rotate1 = new Ez.animation.Rotate(3000, "rotation",
+    //     0, rotationCalc(point1.getCoordinate(), point2.getCoordinate()));
+    // var translate1 = new Ez.animation.Translate(6000, "position",
+    //     point1, point2);
+    // var sequence = new Ez.animation.Sequence(markerDiy, [rotate1, translate1, rotate2, translate2]);
+    // sequence.setRefreshController(map);
+    // sequence.play();
+    // sequence.on('animation:start', function(e) {});
+    // sequence.on('animation:end', function(e) {});
+
+
+    // function rotationCalc(start, end) {
+    //     // 计算两点之间的差值
+    //     var dy = end[1] - start[1];
+    //     var dx = end[0] - start[0];
+    //     // 计算反正切值
+    //     var atan = Math.abs(dy) / Math.abs(dx);
+    //     var a = null;
+    //     // 坐标象限判断
+    //     if (dy > 0 && dx >= 0) a = Math.atan(atan);
+    //     else if (dy < 0 && dx >= 0) a = Math.PI / 2 + Math.atan(atan);
+    //     else if (dy < 0 && dx < 0) a = Math.PI + Math.atan(atan);
+    //     else if (dy > 0 && dx < 0) a = 3 * Math.PI / 2 + Math.atan(atan);
+    //     else if (dy === 0 && dx > 0) a = Math.PI / 2;
+    //     else if (dy === 0 && dx < 0) a = 3 * Math.PI / 2;
+
+    //     if (a) {
+    //         a = a + Math.PI / 2;
+    //         if (a > 2 * Math.PI) {
+    //             a = a - 2 * Math.PI;
+    //             return a;
+    //         } else if (a > Math.PI) {
+    //             a = 2 * Math.PI - a;
+    //             return -a;
+    //         } else {
+    //             return a;
+    //         }
+    //     } else {
+    //         return null;
+    //     }
+    // };
+
+    function rotationCalc(start, end) {
+        // 计算两点之间的差值
+        var dy = end[1] - start[1];
+        var dx = end[0] - start[0];
+        // 计算反正切值
+        var atan = Math.abs(dy) / Math.abs(dx);
+        var a = null;
+        // 坐标象限判断
+        if (dy > 0 && dx > 0) a = Math.PI / 2 - Math.atan(atan);
+        else if (dy < 0 && dx > 0) a = Math.PI / 2 + Math.atan(atan);
+        else if (dy < 0 && dx < 0) a = 3 * Math.PI / 2 - Math.atan(atan);
+        else if (dy > 0 && dx < 0) a = 3 * Math.PI / 2 + Math.atan(atan);
+        else if (dy === 0 && dx > 0) a = Math.PI / 2;
+        else if (dy === 0 && dx < 0) a = 3 * Math.PI / 2;
+        else if (dy > 0 && dx === 0) a = 0;
+        else if (dy < 0 && dx === 0) a = Math.PI;
+
+        a = a + Math.PI / 2;
+        return a;
+    };
+
+    map.addMapEventListener(Ez.Event.MAP_MOUSEMOVE, function(evt) {
+        var pixel = evt.pixel;
+        var coord = evt.coordinate;
+        var viewport = map.getViewport();
+        var device = this.forEachFeatureAtPixel(pixel, function(feature, layer) {
+            viewport.style.cursor = 'pointer';
+            return feature;
+        });
+        if (!device) {
+            viewport.style.cursor = '';
+        }
+    });
+    </script>
+</body>
+
+</html>

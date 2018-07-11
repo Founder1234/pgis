@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ol3_Simple</title>
+    <link rel="stylesheet" href="../debug/EzServerClient.min.css">
+    <script type="text/javascript" src="assign.polyfill.js"></script>
+    <script type="text/javascript" src="../EzMapAPI.js?key=121212"></script>
+    <script type="text/javascript" src="../debug/EzServerClient.js"></script>
+</head>
+
+<body>
+    <div id="map" style="width:100%;height:500px"></div>
+    <script type="text/javascript">
+    var umap = new EzMap('map');
+    var simplezoom = new Ez.controls.SimpleZoom();
+    umap.addControl(simplezoom);
+    var simplelayers = new Ez.controls.SimpleLayers();
+    umap.addControl(simplelayers);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>ol3_Zoom</title>
+	<link rel="stylesheet" href="../dist/EzServerClient.min.css">
+	<script type="text/javascript" src="../dist/EzMapAPI.js"></script>
+	<script type="text/javascript" src="../dist/EzServerClient.js"></script>
+
+	<style type="text/css">
+		.btn{
+			width: 120px;
+			height: 30px;
+		}
+	</style>
+</head>
+<body>
+	<div id="map" style="width:100%;height:500px"></div>
+	<button id="ZoomIn" class="btn">Zoom In</button>
+	<button id="ZoomOut" class="btn">Zoom Out</button>
+	<button id="PanToCenter" class="btn">PanToLatlng</button>
+	<button id="CenterAt" class="btn">Center At</button>
+	<button id="CenterAtMBR" class="btn">Center MBR</button>
+
+	<script type="text/javascript">
+		var map = new EzMap('map');
+
+		map.showMapControl();
+
+		var btn_zoomIn = document.getElementById('ZoomIn');
+		var btn_zoomOut = document.getElementById('ZoomOut');
+		var btn_panTo = document.getElementById('PanToCenter');
+		var btn_centerAt = document.getElementById('CenterAt');
+		var btn_centermbr = document.getElementById('CenterAtMBR');
+
+		btn_zoomIn.addEventListener('click',function(){
+			map.zoomAnimationTo(10);
+		});
+		btn_zoomOut.addEventListener('click',function(){
+			map.zoomOut();
+		});
+		btn_panTo.addEventListener('click',function(){
+			map.centerAtLatlng(114.523807,38.046912);
+		});
+		btn_centerAt.addEventListener('click',function(){
+			map.centerAndZoom(new EzCoord(114.523807,38.046912),12);
+		});
+		btn_centermbr.addEventListener('click',function(){
+			map.centerAtMBR([114.323807,37.846912,114.77,38.25]);
+		});
+	</script>
+</body>
+</html>

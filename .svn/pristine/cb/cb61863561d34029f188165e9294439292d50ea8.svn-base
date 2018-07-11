@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AnimationTo Demo</title>
+    <link rel="stylesheet" type="text/css" href="../lib/EzServerClient.min.css">
+    <script type="text/javascript" src="../lib/EzMapAPI.js"></script>
+    <script type="text/javascript" src="../lib/EzServerClient.min.js"></script>
+    <style type="text/css">
+    body, html {width: 100%;height: 80%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+    </style>
+    <style type="text/css">
+        .divOverlay {
+            border: 1px solid #777373;
+            border-radius: 2px;
+            font-family: 微软雅黑,宋体;
+            font-size: 15px;
+        }
+        .divOverlay span {
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+    <style type="text/css">
+        .group {
+            margin:2px;
+            display: inline-block;
+            border: 0.5px solid black;
+            border-radius: 1px;
+        }
+    </style>
+    <div id="map" style="width:100%;height:90%;"></div>
+    <div>
+        <div class="group">
+            <span><strong>WMS(矢量)：</strong></span>
+            <button id="wmsadd">ADD</button>
+            <button id="wmsremove">REMOVE</button>
+        </div>
+        <div class="group">
+            <span><strong>WMTS(栅格)：</strong></span>
+            <button id="clear">clear</button>
+            <button id="wmtsadd">ADD</button>
+            <button id="wmtsremove">REMOVE</button>
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+        var map = new EzMap('map');
+        
+        var wmsadd = document.getElementById("wmsadd");
+        var wmsremove = document.getElementById("wmsremove");
+        var wmtsadd = document.getElementById("wmtsadd");
+        var wmtsremove = document.getElementById("wmtsremove");
+        var clearbtn = document.getElementById("clear");
+        
+        var imagewms;
+        var wmtslayer;
+
+        wmsadd.addEventListener("click",function(){
+            map.centerAtLatlng(new EzCoord(113.0426313229178, 23.055));
+            imagewms = new Ez.Layer.ImageWMS({
+                url: 'http://localhost:8080/geoserver/guandong/wms',
+                params: {
+                    'FORMAT': 'image/png',
+                    'LAYERS': 'guandong:佛山六边形范围',
+                    'HEIGHT': 4000
+                },
+                serverType: 'geoserver'
+            });
+            map.addLayer(imagewms);
+        });
+
+        wmsremove.addEventListener("click",function(){
+            map.removeLayer(imagewms);
+        });
+
+        clearbtn.addEventListener("click",function(){
+            var config = map.getConfig();
+            var layers = config.getLayers();
+            layers.forEach(function(layer){
+                map.removeLayer(layer);
+            });
+        });
+
+        wmtsadd.addEventListener('click',function(){
+            map.centerAtLatlng(new EzCoord(106.611328125, 26.53472900390625));
+            wmtslayer = new Ez.TileLayer.WMTS('test','http://172.25.16.106:8080/EzServer7/WMTS',{
+                wrapX: false,
+                layer: 'arcgissl12',
+                matrixSet: 'csss',
+                format: 'tilessssssssss',
+                style: 'default',
+                key: 'text'
+            });
+            map.addLayer(wmtslayer);
+        });
+
+        wmtsremove.addEventListener('click',function(){
+            map.removeLayer(wmtslayer);
+        });
+    </script>
+</body>
+</html>

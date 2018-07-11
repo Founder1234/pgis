@@ -1,0 +1,43 @@
+{% extends '../views/layout.html' %} 
+
+{% block title %}AnimationTo Demo{% endblock %}
+
+{% block code %} 
+<body>
+    <div id="map" style="width:100%;height:90%;"></div>
+    <div style="height:10%;width:100%;">
+        <span>animate to: </span>
+        <select id="animatetype">
+            <option value="pan">平移</option>
+            <option value="fly">飞行</option>
+            <option value="spiral">盘旋</option>
+        </select>
+        <span>animate time: </span>
+        <input type="text" id="animateTime" value="">
+        <button id="animateto">animatetoShangHai</button>
+        <button id="centerto">centertoBeijing</button>
+    </div>
+    <script>
+        var map = new EzMap('map');
+        
+        var locationBeijing   = new EzCoord(116.4551, 40.2539);
+        var locationShangeHai = new EzCoord(121.4648, 31.2891);
+
+        var animatebtn = document.getElementById("animateto");
+        animatebtn.addEventListener("click",function(){
+            var selectElement = document.getElementById("animatetype");
+            var type = selectElement[selectElement.selectedIndex].value;
+            var duration = document.getElementById("animateTime").value;
+            duration = (duration === "") ? 2000 : Number(duration);
+            map.animationTo(locationShangeHai,type,{
+                duration : duration
+            });
+        });
+
+        var centerbtn = document.getElementById("centerto");
+        centerbtn.addEventListener("click",function(){
+            map.centerAtLatlng(locationBeijing);
+        });
+    </script>
+</body>
+{% endblock %}

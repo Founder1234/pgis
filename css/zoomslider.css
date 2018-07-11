@@ -1,0 +1,167 @@
+/* zoom slider 控件 */
+.ez-zoomslider {
+	top:4.1em;
+	left:.9em;
+	cursor: pointer;
+}
+
+.ez-zoomslider-btn {
+	width: 24px;
+	height: 22px;
+	border: 1px solid #AFB0B3;
+	background-color: white;
+	text-align: center;
+    text-decoration: none;
+    line-height: 22px;
+
+	font: bold 20px 'Lucida Console', Monaco, monospace;
+}
+
+.ez-zoomslider-btn:hover {
+	background-color: rgba(152,156,252,0.6);
+}
+
+.ez-zoomslider-zoomin {
+	top: 0;
+	border-top-left-radius:2px;
+	border-top-right-radius:2px;
+}
+
+.ez-zoomslider-zoomin:after {
+	content: "+";
+}
+
+.ez-zoomslider-zoomout {
+	bottom: 0;
+	border-bottom-left-radius:4px;
+	border-bottom-right-radius:4px;
+}
+
+.ez-zoomslider-zoomout:after {
+	content: "-";
+}
+
+.ez-zoomslider-zoomcontent {
+	position: relative;
+	width: 24px;
+	background-color: white;
+	border-left: 1px solid #AFB0B3;
+	border-right: 1px solid #AFB0B3;
+}
+
+.ez-zoomslider-zoomcontent-top {
+	width: 100%;
+	height: 15px;
+	position: absolute;
+	top:0;
+	background-image: url('../images/thumb_top.png');
+}
+
+.ez-zoomslider-zoomcontent-body {
+	width: 100%;
+	position: absolute;
+	top:15px;
+	background-image: url('../images/thumb_body.png');
+	background-repeat: repeat-y;
+}
+
+.ez-zoomslider-zoomcontent-bottom {
+	width: 100%;
+	height: 14px;
+	position: absolute;
+	bottom:0;
+	background-image: url('../images/thumb_bottom.png');
+}
+
+.ez-zoomslider-zoomcontentrender {
+	width: 100%;
+	position: absolute;
+	bottom: 9px;
+	background-image: url('../images/zoomslider.png');
+	background-repeat: repeat-y;
+}
+
+.ez-zoomslider-thumb {
+	position: absolute;
+	height: 7px;
+	width: 18px;
+	left: 2px;
+	border: 1px solid #AFB0B3;
+	background-image: url('../images/thumb1.png');
+}
+
+/* zoomslider hover 区域 */
+.ez-zoomslider-tagArea {
+	position: relative;
+	width:30px;
+	margin-left: 24px;
+	padding-left: 2px;
+}
+
+.ez-zoomslider-tagArea-hidden {
+	display: none;
+}
+
+.ez-zoomslider-tag {
+	position: absolute;
+	width: 30px;
+	height:20px;
+}
+
+.ez-zoomslider-tag-country {
+	background-image: url('../images/level_guo.png');
+}
+
+.ez-zoomslider-tag-province {
+	background-image: url('../images/level_sheng.png');
+}
+
+.ez-zoomslider-tag-city {
+	background-image: url('../images/level_shi.png');
+}
+
+.ez-zoomslider-tag-street {
+	background-image: url('../images/level_jie.png');
+}
+
+/* Navigation Bar style */
+.ez-navigation {
+	height: 40px;
+	width: 40px;
+	top:.5em;
+	left:.5em;
+	background-color: white;
+	border-radius: 40px;
+	border: 1px solid #AFB0B3;
+	cursor: pointer;
+}
+
+.ez-navigation-pan {
+	width: 16px;
+	height: 16px;
+	position: absolute;
+}
+
+.ez-navigation-top {
+	top: 0px;
+	left: 14px;
+	background-image: url('../images/panN.png');
+}
+
+.ez-navigation-left {
+	top: 14px;
+	left: 0px;
+	background-image: url('../images/panW.png');
+}
+
+.ez-navigation-bottom {
+	bottom: 0px;
+	left: 14px;
+	background-image: url('../images/panS.png');
+}
+
+.ez-navigation-right {
+	right: 0px;
+	top: 14px;
+	background-image: url('../images/panE.png');
+}

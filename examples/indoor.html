@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>indoor Demo</title>
+    <link rel="stylesheet" type="text/css" href="../debug/EzServerClient.min.css">
+    <script type="text/javascript" src="../debug/EzServerClient.js"></script>
+</head>
+
+<body>
+    <div id="map"></div>
+    <script type="text/javascript">
+    var url = "http://172.25.18.113:7001/EzServer/Maps/1F2010/EzMap?Service=getImage&Type=RGB&ZoomOffset=0&Col={x}&Row={y}&Zoom={z}&V=0.3";
+    var options = {
+        mapInitLevel: 21,
+        mapMaxLevel: 25,
+        mapMinLevel: 21,
+        mapCenter: [495465.40733, 308784.41028],
+        indoor: true,
+        projection: 'EPSG:3857'
+    };
+    var layer;
+    layer = new EzMap2010Local("F1", url);
+    mapObj = new EzMap('map', options);
+    mapObj.addLayer(layer);
+    </script>
+</body>
+
+</html>

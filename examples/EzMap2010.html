@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>TileLayer EzMap2010</title>
+    <link rel="stylesheet" href="../debug/EzServerClient.min.css">
+    <script type="text/javascript" src="../EzMapAPI.js"></script>
+    <script type="text/javascript" src="../debug/EzServerClient.js"></script>
+</head>
+
+<body>
+    <div id="map" style="width:100%;height:500px"></div>
+    <script type="text/javascript">
+    var ezmaplayer = new EzMap2010('矢量', 'http://172.25.16.129:7001/EzServer6_v6.6.12.201403271015/Maps/shijie/EzMap?Service=getImage&Type=RGB&ZoomOffset=0&Col={x}&Row={y}&Zoom={z}&V=0.3');
+
+    var resolutions = ezmaplayer.getResolutions();
+
+    var map = new EzMap('map', {
+        mapCenter: /*[12955004.007317428, 4849848.576024223]*/ [116.34765, 39.94921],
+        mapInitLevel: 10,
+        resolutions: resolutions,
+        projection: 'EPSG:4326'
+    });
+
+    map.addLayer(ezmaplayer);
+    </script>
+</body>
+
+</html>

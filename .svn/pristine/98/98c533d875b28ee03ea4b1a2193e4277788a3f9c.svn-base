@@ -1,0 +1,32 @@
+{% extends '../views/layout.html' %} 
+
+{% block title %}ZoomAnimation Demo{% endblock %}
+
+{% block code %}
+<body>
+	<div id="map" style="width:100%;height:90%;"></div>
+	<div style="width:100%;height:10%;">
+		<span>Zoom Animate to: </span>
+		<input type="text" id="zoomLevel" value="">
+		<span>animate time: </span>
+		<input type="text" id="animateTime" value="">
+		<button id="animateto">go!</button>
+	</div>
+
+	<script type="text/javascript">
+		var map = new EzMap('map');
+		map.showMapControl();
+
+		var animatebtn = document.getElementById("animateto");
+		animatebtn.addEventListener("click",function(){
+			var zoomlevel = document.getElementById("zoomLevel").value;
+			zoomlevel = (zoomlevel === "") ? 15 : Number(zoomlevel);
+			var duration = document.getElementById("animateTime").value;
+			duration = (duration === "") ? 2000 : Number(duration);
+			map.zoomAnimationTo(zoomlevel,{
+				duration : duration
+			});
+		});
+	</script>
+</body>
+{% endblock %}

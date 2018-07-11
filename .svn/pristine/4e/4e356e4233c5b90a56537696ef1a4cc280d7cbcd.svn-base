@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ol3_Simple</title>
+    <link rel="stylesheet" href="../debug/EzServerClient.min.css">
+    <link rel="stylesheet" type="text/css" href="popup.css">
+    <script type="text/javascript" src="assign.polyfill.js"></script>
+    <script type="text/javascript" src="../EzMapAPI.js?key=121212"></script>
+    <script type="text/javascript" src="../debug/EzServerClient.js"></script>
+</head>
+
+<body>
+    <div id="map" style="width:100%;height:500px"></div>
+    <script type="text/javascript">
+    var umap = new EzMap('map');
+    var scale = new Ez.controls.ScaleLine();
+    umap.addControl(scale);
+
+    var features = [];
+    populate(500, umap);
+
+    // 聚类模拟数据
+    function getRandomLatLng(map) {
+        var bounds = map.getView().calculateExtent(map.getSize()),
+            southWest = [bounds[0], bounds[1]],
+            northEast = [bounds[2], bounds[3]],
+            lngSpan = northEast[0] - southWest[0],
+            latSpan = northEast[1] - southWest[1];
+
+        return new EzCoord(
+            southWest[0] + lngSpan * Math.random(),
+            southWest[1] + latSpan * Math.random());
+    }
+
+    function populate(num, map) {
+        for (var i = 0; i < num; i++) {
+            var icon = new EzIcon({
+                src: '../images/car1.png',
+                anchor: [0.5, 0.5],
+                size: [32, 32],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'fraction',
+                opacity: 1
+            });
+            var m = new EzMarker(getRandomLatLng(map));
+            features.push(m);
+        }
+    }
+
+    var testvectore = new Ez.Layer.Cluster({
+        cluster: {
+            distance: 80
+        },
+        type: 'nomarker'
+    });
+    testvectore.addData(features);
+    umap.addLayer(testvectore);
+    </script>
+</body>
+
+</html>

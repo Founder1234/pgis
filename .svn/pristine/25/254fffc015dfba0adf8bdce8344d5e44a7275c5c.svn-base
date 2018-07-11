@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Features</title>
+    <link rel="stylesheet" type="text/css" href="../lib/EzServerClient.min.css">
+    <script type="text/javascript" src="../lib/EzMapAPI.js"></script>
+    <script type="text/javascript" src="../lib/EzServerClient.min.js"></script>
+    <style type="text/css">
+    body {
+        padding: 5;
+    }
+    
+    p,
+    pre {
+        margin: 0;
+        border: 0;
+    }
+    
+    .start-up-code {
+        padding-left: 15px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        width: 80%;
+        margin: 0 auto;
+    }
+    
+    .start-up-code > p {
+        background-color: #E18728;
+        padding-left: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        line-height: 2;
+        color: white;
+    }
+    
+    .start-up-code > pre {
+        padding-left: 5px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        webkit-box-sizing: border-box;
+        display: block;
+        white-space: pre-wrap;
+        white-space: -moz-pre-wrap;
+        white-space: -pre-wrap;
+        white-space: -o-pre-wrap;
+        word-wrap: break-word;
+        width: 100%;
+        overflow-x: auto;
+        background-color: #1D1F21;
+        color: #FFF;
+        line-height: 1.5;
+        font-size: 16px;
+        letter-spacing: 1px;
+        font-family: "Times New Roman", Times, serif;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="map" style="padding: 10px; border: 1px solid blue; width: 80%; height: 350px;margin: 0 auto;"></div>
+    <div style="margin-left: 10%; padding: 10px;">
+        <span>增加一个点到地图：</span>
+        <button id="point">point</button>
+        <span> 改变点样式：</span>
+        <button id="newpoint">new style</button>
+    </div>
+    <div style="margin-left: 10%; padding: 10px;">
+        <span>增加一个圆到地图：</span>
+        <button id="circle">circle</button>
+        <span> 改变圆样式：</span>
+        <button id="newcircle">new style</button>
+    </div>
+    <div style="margin-left: 10%; padding: 10px;">
+        <span>增加一条多义线到地图：</span>
+        <button id="polyline">polyline</button>
+        <span> 改变多义线样式：</span>
+        <button id="newpolyline">new style</button>
+    </div>
+    <div style="margin-left: 10%; padding: 10px;">
+        <span>增加一个多边形到地图：</span>
+        <button id="polygon">polygon</button>
+        <span> 改变点样式：</span>
+        <button id="newpolygon">new style</button>
+    </div>
+    <div style="margin-left: 10%; padding: 10px;">
+        <span>增加一个矩形到地图：</span>
+        <button id="rectangle">rectangle</button>
+        <span> 改变点样式：</span>
+        <button id="newrectangle">new style</button>
+    </div>
+    <br />
+    <hr width="80%" />
+    <div class="start-up-code">
+        <P>HTML</P>
+        <pre>
+			<code>
+&lt;!-- body部分,部署以及加载查看起步 --&gt;
+&lt;div id="map" style="padding: 10px; border: 1px solid blue; width: 80%; height: 350px;"&gt;&lt;/div&gt;
+&lt;div style="margin-left: 10%; padding: 10px;"&gt;
+	&lt;span&gt;增加一个点到地图：&lt;/span&gt;
+	&lt;button id="point"&gt;point&lt;/button&gt;
+	&lt;span&gt; 改变点样式：&lt;/span&gt;
+	&lt;button id="newpoint"&gt;new style&lt;/button&gt;
+&lt;/div&gt;
+&lt;div style="margin-left: 10%; padding: 10px;"&gt;
+	&lt;span&gt;增加一个圆到地图：&lt;/span&gt;
+	&lt;button id="circle"&gt;circle&lt;/button&gt;
+	&lt;span&gt; 改变圆样式：&lt;/span&gt;
+	&lt;button id="newcircle"&gt;new style&lt;/button&gt;
+&lt;/div&gt;
+&lt;div style="margin-left: 10%; padding: 10px;"&gt;
+	&lt;span&gt;增加一条多义线到地图：&lt;/span&gt;
+	&lt;button id="polyline"&gt;polyline&lt;/button&gt;
+	&lt;span&gt; 改变多义线样式：&lt;/span&gt;
+	&lt;button id="newpolyline"&gt;new style&lt;/button&gt;
+&lt;/div&gt;
+&lt;div style="margin-left: 10%; padding: 10px;"&gt;
+	&lt;span&gt;增加一个多边形到地图：&lt;/span&gt;
+	&lt;button id="polygon"&gt;polygon&lt;/button&gt;
+	&lt;span&gt; 改变点样式：&lt;/span&gt;
+	&lt;button id="newpolygon"&gt;new style&lt;/button&gt;
+&lt;/div&gt;
+&lt;div style="margin-left: 10%; padding: 10px;"&gt;
+	&lt;span&gt;增加一个矩形到地图：&lt;/span&gt;
+	&lt;button id="rectangle"&gt;rectangle&lt;/button&gt;
+	&lt;span&gt; 改变点样式：&lt;/span&gt;
+	&lt;button id="newrectangle"&gt;new style&lt;/button&gt;
+&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+	var map = new EzMap('map');
+	
+	/**
+	 * 点对象
+	 */
+	var pointOfEz = new Point(new EzCoord(116.34765,39.94921),{
+		'radius' : 5,
+		'fillColor' : 'rgba(255, 255, 255, 0.6)',
+		'strokeColor': '#319FD3',
+		'strokeWidth': 1
+	});
+
+	/**
+	 * 圆对象
+	 */
+	var circleOfEz = new Circle(new EzCoord(116.34765,39.94921),1000,{
+		'strokeColor' : '#AC2222',
+		'strokeOpacity' : 1,
+		'strokeWidth' : 5,
+		'fillColor' : '#EE0C0C',
+		'fillOpacity':0.6
+	});
+
+	/**
+	 * 多义线对象
+	 */
+	var polylineOfEz = new Polyline('116.34765,39.94921,116.55,39.94921',{
+		'strokeColor' : '#FFF61D',
+		'strokeWidth' : 11
+	});
+
+	/**
+	 * 多边形对象
+	 */
+	var coordinates = '116.34765,39.94921,116.55,39.94921,116.44,39.76';
+	var polygonOfEz = new Polygon(coordinates,{
+		'strokeColor' : '#AC2222',
+		'strokeOpacity' : 0.6,
+		'strokeWidth' : 1,
+		'strokeLineDash': [8,1,8],
+		'fillColor' : '#EE0C0C',
+	});	
+
+	/**
+	 * 矩形对象
+	 */
+	var coordinates = '116.34765,39.94921,116.55,39.74921';
+	var rectangleOfEz = new Rectangle(coordinates,{
+		'strokeColor' : '#AC2222',
+		'strokeOpacity' : 0.6,
+		'strokeWidth' : 5,
+		'fillColor' : '#EE0C0C',
+		'fillOpacity': 0
+	});
+	
+	document.getElementById("point").addEventListener("click",function(){
+		map.addOverlay(pointOfEz);
+	});
+
+	document.getElementById("newpoint").addEventListener("click",function(){
+		pointOfEz.setFillColor('rgb(0,0,45)');
+		pointOfEz.setFillOpacity(0.3);
+	});
+
+	document.getElementById("circle").addEventListener("click",function(){
+		map.addOverlay(circleOfEz);
+	});
+
+	document.getElementById("newcircle").addEventListener("click",function(){
+		circleOfEz.setFillColor('rgb(7,34,45)');
+		circleOfEz.setFillOpacity(0.3);
+		circleOfEz.setStrokeColor('#ffffff');
+		circleOfEz.setStrokeOpacity(1);
+		circleOfEz.setStrokeWidth(4);
+	});
+
+	document.getElementById("polyline").addEventListener("click",function(){
+		map.addOverlay(polylineOfEz);
+	});
+
+	document.getElementById("newpolyline").addEventListener("click",function(){
+		polylineOfEz.setStrokeColor('#ffffff');
+		polylineOfEz.setStrokeOpacity(1);
+		polylineOfEz.setStrokeWidth(4);
+	});
+
+	document.getElementById("polygon").addEventListener("click",function(){
+		map.addOverlay(polygonOfEz);
+	});
+
+	document.getElementById("newpolygon").addEventListener("click",function(){
+		polygonOfEz.setFillColor('rgb(7,34,45)');
+		polygonOfEz.setFillOpacity(0.3);
+		polygonOfEz.setStrokeColor('#ffffff');
+		polygonOfEz.setStrokeOpacity(1);
+		polygonOfEz.setStrokeWidth(4);
+	});
+
+	document.getElementById("rectangle").addEventListener("click",function(){
+		map.addOverlay(rectangleOfEz);
+	});
+
+	document.getElementById("newrectangle").addEventListener("click",function(){
+		rectangleOfEz.setFillColor('rgb(7,34,45)');
+		rectangleOfEz.setFillOpacity(0.3);
+		rectangleOfEz.setStrokeColor('#ffffff');
+		rectangleOfEz.setStrokeOpacity(1);
+		rectangleOfEz.setStrokeWidth(4);
+	});
+&lt;/script&gt;
+			</code>
+		</pre>
+    </div>
+    <script type="text/javascript">
+    var map = new EzMap('map');
+
+    /**
+     * 点对象
+     */
+    var pointOfEz = new Point(new EzCoord(116.34765, 39.94921), {
+        'radius': 5,
+        'fillColor': 'rgba(255, 255, 255, 0.6)',
+        'strokeColor': '#319FD3',
+        'strokeWidth': 1
+    });
+
+    /**
+     * 圆对象
+     */
+    var circleOfEz = new Circle(new EzCoord(116.34765, 39.94921), 1000, {
+        'strokeColor': '#AC2222',
+        'strokeOpacity': 1,
+        'strokeWidth': 5,
+        'fillColor': '#EE0C0C',
+        'fillOpacity': 0.6
+    });
+
+    /**
+     * 多义线对象
+     */
+    var polylineOfEz = new Polyline('116.34765,39.94921,116.55,39.94921', {
+        'strokeColor': '#FFF61D',
+        'strokeWidth': 5
+    });
+
+    /**
+     * 多边形对象
+     */
+    var coordinates = '116.34765,39.94921,116.55,39.94921,116.44,39.76';
+    var polygonOfEz = new Polygon(coordinates, {
+        'strokeColor': '#AC2222',
+        'strokeOpacity': 0.6,
+        'strokeWeight': 1,
+        'strokeLineDash': [8, 1, 8],
+        'fillColor': '#EE0C0C',
+    });
+
+    /**
+     * 矩形对象
+     */
+    var coordinates = '116.34765,39.94921,116.55,39.74921';
+    var rectangleOfEz = new Rectangle(coordinates, {
+        'strokeColor': '#AC2222',
+        'strokeOpacity': 0.6,
+        'strokeWidth': 5,
+        'fillColor': '#EE0C0C',
+        'fillOpacity': 0
+    });
+
+    document.getElementById("point").addEventListener("click", function() {
+        map.addOverlay(pointOfEz);
+    });
+
+    document.getElementById("newpoint").addEventListener("click", function() {
+        pointOfEz.setFillColor('rgb(0,0,45)');
+        pointOfEz.setFillOpacity(0.3);
+    });
+
+    document.getElementById("circle").addEventListener("click", function() {
+        map.addOverlay(circleOfEz);
+    });
+
+    document.getElementById("newcircle").addEventListener("click", function() {
+        circleOfEz.setFillColor('rgb(7,34,45)');
+        circleOfEz.setFillOpacity(0.3);
+        circleOfEz.setStrokeColor('#ffffff');
+        circleOfEz.setStrokeOpacity(1);
+        circleOfEz.setStrokeWidth(4);
+    });
+
+    document.getElementById("polyline").addEventListener("click", function() {
+        map.addOverlay(polylineOfEz);
+    });
+
+    document.getElementById("newpolyline").addEventListener("click", function() {
+        polylineOfEz.setStrokeColor('#ffffff');
+        polylineOfEz.setStrokeOpacity(1);
+        polylineOfEz.setStrokeWidth(4);
+    });
+
+    document.getElementById("polygon").addEventListener("click", function() {
+        map.addOverlay(polygonOfEz);
+    });
+
+    document.getElementById("newpolygon").addEventListener("click", function() {
+        polygonOfEz.setFillColor('rgb(7,34,45)');
+        polygonOfEz.setFillOpacity(0.3);
+        polygonOfEz.setStrokeColor('#ffffff');
+        polygonOfEz.setStrokeOpacity(1);
+        polygonOfEz.setStrokeWidth(4);
+    });
+
+    document.getElementById("rectangle").addEventListener("click", function() {
+        map.addOverlay(rectangleOfEz);
+    });
+
+    document.getElementById("newrectangle").addEventListener("click", function() {
+        rectangleOfEz.setFillColor('rgb(7,34,45)');
+        rectangleOfEz.setFillOpacity(0.3);
+        rectangleOfEz.setStrokeColor('#ffffff');
+        rectangleOfEz.setStrokeOpacity(1);
+        rectangleOfEz.setStrokeWidth(4);
+    });
+    </script>
+</body>
+
+</html>

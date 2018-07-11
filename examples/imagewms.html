@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Image WMS Demo</title>
+    <link rel="stylesheet" type="text/css" href="../debug/EzServerClient.min.css">
+    <script type="text/javascript" src="assign.polyfill.js"></script>
+    <script type="text/javascript" src="../EzMapAPI.js"></script>
+    <script type="text/javascript" src="../debug/EzServerClient.js"></script>
+    <style type="text/css">
+        html,body {
+            padding: 0;
+            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map" style="width:100%;height:100%;"></div>
+    <script type="text/javascript">
+    var map = new EzMap('map');
+    // map.centerAtLatlng(new EzCoord(117.1992301940918, 39.13930892944336));
+    map.centerAndZoom(new EzCoord(119.95662689208984, 31.77898406982422),13);
+
+    // 119.95662689208984, 31.77898406982422
+    
+    function imageLoadFn(imageTile,src) {
+        var d = Date.now();
+        imageTile.getImage().src = src + '&t=' + d;
+    }
+
+    var imagewms = new Ez.Layer.ImageWMS({
+        url: 'http://139.129.251.137:8000',
+        params: {
+            'FORMAT': 'image/png',
+            'VERSION': '1.1.1',
+            'SRS': 'EPSG:4326',
+            'LAYERS': '__all__'
+        },
+        imageLoadFunction: imageLoadFn,
+        ratio: 1.2
+    });
+    map.addLayer(imagewms);
+
+    window.setInterval(function(){
+        var s = imagewms.getSource();
+        s.changed();
+    },20000);
+    </script>
+</body>
+
+</html>

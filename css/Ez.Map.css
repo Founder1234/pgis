@@ -1,0 +1,264 @@
+.Ez_popover {
+    width: 200px;
+}
+
+.Ez_popover .context {
+    text-align: center;
+    border-radius: 5px;
+    background-color: rgba(217, 227, 250, 0.85);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+    padding: 7px 10px;
+    color: #414040;
+    font-size: 15px;
+    line-height: 200%;
+    font-family: 'Helvetica', sans-serif;
+}
+
+.Ez_popover .above {
+    width: 0;
+    height: 0;
+    margin-left: 90px;
+    border-top: 10px solid rgba(217, 227, 250, 0.85);
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: none;
+}
+
+
+/** layers 控件样式 */
+
+.ez-layers {
+    top: .5em;
+    right: .5em;
+    background-color: #fff;
+    border: 1px solid #9B9EA4;
+}
+
+.ez-layers-hidden {
+    display: none;
+}
+
+.ez-layers-div {
+    position: relative;
+    cursor: pointer;
+}
+
+.ez-layers-title {
+    font-family: 微软雅黑, 宋体, "Times New Roman", Times, serif;
+    font-size: 11px;
+    text-align: center;
+    line-height: 16px;
+    color: #666;
+    overflow: hidden;
+    cursor: pointer;
+    width: 100%;
+    max-height: 16px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    margin-bottom: 1px;
+    background-color: #fff;
+}
+
+
+/* 简约化zoom控件样式 */
+
+.ez-simple-zoom {
+    padding: 1px;
+    bottom: 90px;
+    right: 10px;
+    -webkit-box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 1);
+    -moz-box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 1);
+    box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 1);
+}
+
+.ez-simple-btn {
+    width: 25px;
+    height: 25px;
+    background-color: #fff;
+    position: relative;
+    cursor: pointer;
+}
+
+.ez-simple-btn:nth-child(2) {
+    border-top: 1px solid #A7A7A7;
+    border-bottom: 1px solid #A7A7A7;
+}
+
+.ez-simple-zoomview {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+}
+
+.ez-simple-status {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+    font-weight: bolder;
+    color: #A7A7A7;
+    text-align: center;
+    line-height: 20px;
+}
+
+.ez-simple-zoomin {
+    background-image: url('../images/zoomin.png');
+}
+
+.ez-simple-zoomout {
+    background-image: url('../images/zoomout.png');
+}
+
+
+/* 简约化layers控件样式 */
+
+.ez-simple-layers {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    bottom: 10px;
+    right: 10px;
+    padding: 5px;
+    background-color: transparent;
+}
+
+.ez-simple-layers > div {
+    display: inline-block;
+}
+
+.ez-simple-layers .hide {
+    display: none;
+}
+
+.ez-simple-layers--onfocus {
+    background-color: transparent;
+    -webkit-box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 1);
+    -moz-box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 1);
+    box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 1);
+}
+
+.ez-simple-card {
+    position: relative;
+    width: 86px;
+    height: 60px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.ez-simple-card:first-child:last-child {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.ez-simple-card span {
+    position: absolute;
+    bottom: 1px;
+    right: 0;
+    padding: 3px 3px 2px 4px;
+    font-size: 12px;
+    line-height: 12px;
+    color: #FFF;
+}
+
+.ez-simple-card--onfocus {
+    outline: 1px solid blue;
+}
+
+.ez-simple-card-title--onfocus {
+    background-color: blue;
+}
+
+
+/* 比例尺控件样式 */
+
+.ez-scale-line {
+    background: transparent;
+    background: rgba(226, 226, 226, .3);
+    border-radius: 4px;
+    bottom: 20px;
+    left: 10px;
+    padding: 2px;
+    position: absolute
+}
+
+.ez-scale-line-inner {
+    border: 1px solid #000;
+    border-top: none;
+    color: #000;
+    font-size: 10px;
+    text-align: center;
+    margin: 1px;
+    will-change: contents, width
+}
+
+
+/* 鹰眼地图样式配置 */
+
+.ez-custom-overview,
+.ez-custom-overview.ol-uncollapsible {
+    bottom: 0;
+    left: auto;
+    right: 0;
+    top: auto;
+}
+
+.ez-custom-overview:not(.ol-collapsed) {
+    border: 1px solid black;
+}
+
+.ez-custom-overview .ol-overview-map {
+    border: none;
+    width: 300px;
+}
+
+.ez-custom-overview .ol-overviewmap-box {
+    border: 2px solid red;
+    background-color: rgba(255, 0, 0, 0.5);
+}
+
+.ez-custom-overview button {
+    background: transparent;
+    background: rgba(226, 226, 226, .3);
+    color: #000;
+    border: 1px solid black;
+    font-size: 1.375em;
+}
+
+
+/*.ez-custom-overview button {
+    -moz-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}*/
+
+.ez-custom-overview button:hover {
+    background: transparent;
+    background: rgba(226, 226, 226, .6);
+}
+
+.ez-custom-overview button:active {
+    background: transparent;
+    background: rgba(226, 226, 226, .6);
+}
+
+.ez-custom-overview button:focus {
+    background: transparent;
+    background: rgba(226, 226, 226, .6);
+    outline: none;
+}
+
+.ez-custom-overview:not(.ol-collapsed) button {
+    bottom: 1px;
+    left: auto;
+    right: 1px;
+    top: auto;
+    background: transparent;
+    background: rgba(226, 226, 226, .3);
+    color: #000;
+    font-size: 1.375em;
+}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>基于Plot的态势标绘--编辑</title>
+    <link rel="stylesheet" type="text/css" href="../debug/EzServerClient.min.css">
+    <script type="text/javascript" src="../debug/EzMapAPI.js"></script>
+    <script type="text/javascript" src="../debug/EzServerClient.js"></script>
+    <!-- 引入plot插件 -->
+    <script type="text/javascript" src="../thirds_plugins/plot.min.js"></script>
+    <style type="text/css">
+    body, html {width: 100%;height: 80%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+    </style>
+</head>
+
+<body>
+    <div id="map" style="width:100%;height:90%;"></div>
+    <div>
+        <button id="draw">开始绘制</button>
+        <span>点击要素开始编辑(只可改变位置，形状编辑请参考多边形编辑)</span>
+    </div>
+    <script type="text/javascript">
+        var map = new EzMap('map');
+        // 四种图形的绘制字典
+        var plotDict = {
+            "attackarrow": P.PlotTypes.ATTACK_ARROW,
+            "doublearrow": P.PlotTypes.DOUBLE_ARROW,
+            "place": P.PlotTypes.GATHERING_PLACE,
+            "ace": P.PlotTypes.ARC
+        };
+        // 配置绘制的样式参数
+        var options = {
+            stroke: {
+                color: "red",
+                width: 4
+            },
+            fill: {
+                color: "rgba(0,0,22,0.5)"
+            }
+        };
+        // 构建绘制句柄
+        var plotDraw = new P.PlotDraw(map, options);
+        var plotEdit = new P.PlotEdit(map);
+        map.addLayer(plotDraw);
+
+        // 开始绘制触发开始绘制事件
+        plotDraw.addPlotEventListener('draw_start',function(evt){
+            console.log('drawing start!');
+        });
+        
+        // 结束绘制触发结束绘制事件
+        plotDraw.addPlotEventListener('draw_end',function(evt){
+            var plot = evt.plot;
+            var plotType = evt.plotType;
+            // 构造该标绘要素特征
+            var feature = new P.PlotFeature(plot);
+            // 添加到图层句柄中
+            plotDraw.addFeature(feature, options);
+        });
+        
+        map.addMapEventListener(Ez.Event.MAP_CLICK,function(evt){
+            // 如果要素处于绘制状态则返回
+            if (plotDraw.isDrawing()) return;
+            
+            // 通过像素点获取要素对象
+            var feature = map.forEachFeatureAtPixel(evt.pixel, function(feature) {
+                return feature;
+            });
+
+            // 如果鼠标点击区域有要素，则激活要素编辑，否则释放编辑
+            if (feature) {
+                // 开始编辑
+                plotEdit.activate(feature);
+            } else {
+                //结束编辑
+                plotEdit.deactivate();
+            }
+        });
+
+        document.getElementById('draw').addEventListener('click',function(evt){
+            // 点击开始绘制态势标绘图形,取消绘制可以使用deactivate
+            plotDraw.activate(P.PlotTypes.ATTACK_ARROW);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Layers</title>
+	<link rel="stylesheet" href="http://localhost:3000/lib/ol.css">
+	<link rel="stylesheet" type="text/css" href="../css/Ez.Map.css">
+	<script type="text/javascript" src="http://localhost:3000/dist/EzServerClient.min.js"></script>
+
+	<style type="text/css">
+		.ez-layers {
+		  position: absolute;
+		  top: 0.5em;
+		  right: 0.5em;
+		  text-align: left;
+		  padding: 8px;
+		}
+	</style>
+</head>
+<body>
+	<div id="map" style="width:100%;height:500px"></div>
+
+	<script type="text/javascript">
+		var layer = new EzTileLayer('天地图','http://172.18.68.86:7002/PGIS_S_TileMapServer/Maps/sltdt/EzMap?Service=getImage&Type=RGB&ZoomOffset=0&Col={x}&Row={y}&Zoom={z}&V=0.3',{
+				projection: 'EPSG:4326'
+		});
+		var layer2 = new EzMap2010('矢量','http://172.25.16.129:7001/EzServer6_v6.6.12.201403271015/Maps/shijie/EzMap?Service=getImage&Type=RGB&ZoomOffset=0&Col={x}&Row={y}&Zoom={z}&V=0.3',{
+				projection: 'EPSG:4326'
+		});
+
+		var locationPos = [116.34765,39.94921];
+		var map = new EzMap('map',{
+		  /*mapCenter: [12955004.007317428, 4849848.576024223][114.523807,38.046912],*/
+		  mapCenter: [116.34765,39.94921],
+		  mapInitLevel: 10,
+		  projection: 'EPSG:4326'
+		});
+
+		map.addLayer(layer);
+		
+		//要增加的element对象
+		var element = document.createElement('div');
+		var layers = {
+			"天地图": layer,
+			"矢量" : layer2
+		};
+		
+		var p = document.createElement('div');
+		p.innerHTML = 'Base Layer';
+		p.style.fontSize = '12px';
+		p.style.fontWeight = 'bold';
+		p.style.lineHeight = '20px';
+		element.appendChild(p);
+		var childs = document.createElement('ul');
+		childs.id = 'ez-layersControl'
+		childs.style.padding = 0;
+		for(var layerobj in layers) {
+			var radio = document.createElement('input');
+			radio.type = 'radio';
+			radio.name = 'layers';
+			radio.style.verticalAlign = 'middle';
+			if (layerobj === "天地图") {
+				radio.checked = true;
+			}
+			var label = document.createElement('lable');
+			label.innerHTML = layerobj;
+			label.style.verticalAlign = 'middle';
+			var divobj = document.createElement('li');
+			divobj.style.listStyle = 'none';
+			divobj.appendChild(radio);
+			divobj.appendChild(label);
+			childs.appendChild(divobj);
+		}
+		element.appendChild(childs);
+
+		element.className = 'ol-unselectable ol-control ez-layers';
+		
+		var layersControl = new Ez.control.Layers({
+			element: element,
+			layers: layers
+		});
+		map.addControl(layersControl);
+
+		//定义raido事件,Ez.control.Layers定义点击事件处理器，根据图层名来进行图层切换
+		var lis = document.getElementById('ez-layersControl').childNodes,
+			len = lis.length;
+		for (var i = 0; i < len; i++) {
+			lis[i].addEventListener('click',function(){
+				layersControl.swapTo(this.childNodes[1].innerHTML);
+				this.childNodes[0].checked = true;
+			});
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>显示隐藏图层控件</title>
+    <link rel="stylesheet" type="text/css" href="../debug/EzServerClient.min.css">
+    <script type="text/javascript" src="../debug/EzMapAPI.js"></script>
+    <script type="text/javascript" src="../debug/EzServerClient.js"></script>
+    <style type="text/css">
+    body, html {width: 100%;height: 80%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+    </style>
+</head>
+<body>
+    <div id="map" style="width:100%;height:90%;"></div> 
+    <div style="height:10%;">
+        <button id="measure">距离测量</button>
+    </div>
+    <script>
+        var map = new EzMap('map');
+
+        var measurebtn = document.getElementById('measure');
+        measurebtn.addEventListener('click',function(){
+            map.changeDragMode('measureLine',function(result){
+                window.alert(result.pretty);
+            });
+        });
+    </script>
+</body>
+</html>

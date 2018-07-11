@@ -1,0 +1,14 @@
+{
+  "name": "ezserverclientv71apidoc",
+  "private": true,
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "serve": "node serve.js"
+  },
+  "dependencies": {
+    "express": "^4.13.4",
+    "open": "0.0.5"
+  }
+}

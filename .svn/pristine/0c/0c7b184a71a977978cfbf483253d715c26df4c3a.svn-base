@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>单图层热点伸缩样式</title>
+    <link rel="stylesheet" type="text/css" href="../lib/EzServerClient.min.css">
+    <script type="text/javascript" src="../lib/EzMapAPI.js"></script>
+    <script type="text/javascript" src="../lib/EzServerClient.min.js"></script>
+    <style type="text/css">
+    body, html {width: 100%;height: 80%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+    </style>
+</head>
+<body>
+    <div id="map" style="width:100%;height:100%;"></div>
+    <script>
+        var map = new EzMap('map');
+        // 基于POISearchS的热点服务图层接口
+        // proxyurl为本地代理服务地址，解决跨域问题
+        var singleTile = new EzTileLayerSingleHotSpot({
+            proxyurl: "http://172.18.71.108:7878/proxy",
+            url: "http://172.18.68.145:8080/EzPOISearchS/PoiWMTSV1?scope=_NAMES&layer=PGIS_CS_FWCS_DH_PG_BG&keywords=&style=default&tilematrixset=d&Service=WMTS&Request=GetTile&Version=1.0.0&Format=jsonv1&TileMatrix={z}&TileCol={x}&TileRow={y}",
+            icon: new EzIcon({
+                src: '../images/hot1.png',
+                anchor: [0.5, 1],
+                size: [25, 41],
+                opacity: 1
+            }),
+            format: 'scale',  // 目前只支持: 'scale'|'cluster'两种类型
+            type: 'jsonv1',
+            isScale: true,
+            scaleFactor: 1,
+            duration: 500
+        });
+
+        map.addLayer(singleTile);
+
+        var lastMarker;
+        
+        // 中间变量，项目中请提供空间存储
+        var markerIcon = null;
+        var newIcon = new EzIcon({
+            src: '../images/hotspot1.png',
+            anchor: [0.5, 1],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'fraction',
+            opacity: 1
+        });
+        
+        // 地图聚类要素捕捉事件，变换鼠标手势
+        map.addMapEventListener(Ez.Event.MAP_MOUSEMOVE, function(evt) {
+            var pixel = evt.pixel;
+            var coord = evt.coordinate;
+            var viewport = map.getViewport();
+            var marker = map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+                if (feature instanceof EzMarker) {
+                    if (!markerIcon) {
+                        markerIcon = feature.getIcon();
+                    }
+                    return feature;
+                }
+            });
+
+            if (marker) {
+                viewport.style.cursor = 'pointer';
+                var scale = markerIcon.getScale();
+                newIcon.setScale(scale);
+                marker.setIcon(newIcon);
+                lastMarker = marker;
+            } else {
+                viewport.style.cursor = '';
+                if (!lastMarker) {
+                    return;
+                }
+                lastMarker.setIcon(markerIcon);
+                lastMarker = null;
+            }
+        });
+    </script>
+</body>
+</html>

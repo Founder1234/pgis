@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>简易态势标绘绘制</title>
+    <link rel="stylesheet" href="../debug/EzServerClient.min.css">
+    <script type="text/javascript" src="../debug/EzMapAPI.js"></script>
+    <script type="text/javascript" src="../debug/EzServerClient.js"></script>
+    <script type="text/javascript" src="../thirds_plugins/plot.min.js"></script>
+    <style type="text/css">
+    .btn {
+        width: 120px;
+        height: 30px;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="map" style="width:100%;height:500px"></div>
+    <div>
+        <select id="typeSelect" value="attackarrow">
+            <option value="attackarrow">单向箭头</option>
+            <option value="doublearrow">双向箭头</option>
+            <option value="place">聚集区</option>
+            <option value="ace">弧线</option>
+        </select>
+        <button id="draw">开始绘制</button>
+    </div>
+    <script type="text/javascript">
+        var map = new EzMap('map');
+        // 四种图形的绘制字典
+        var plotDict = {
+            "attackarrow": P.PlotTypes.ATTACK_ARROW,
+            "doublearrow": P.PlotTypes.DOUBLE_ARROW,
+            "place": P.PlotTypes.GATHERING_PLACE,
+            "ace": P.PlotTypes.ARC
+        };
+        // 配置绘制的样式参数
+        var options = {
+            stroke: {
+                color: "red",
+                width: 4
+            },
+            fill: {
+                color: "rgba(0,0,22,0.5)"
+            }
+        }
+        // 构建绘制句柄
+        var plotDraw = new P.PlotDraw(map, options);
+        map.addLayer(plotDraw);
+
+        // 开始绘制触发开始绘制事件
+        plotDraw.addPlotEventListener('draw_start',function(evt){
+            console.log('drawing start!');
+        });
+        
+        // 结束绘制触发结束绘制事件
+        plotDraw.addPlotEventListener('draw_end',function(evt){
+            var plot = evt.plot;
+            var plotType = evt.plotType;
+            // 构造该标绘要素特征
+            var feature = new P.PlotFeature(plot);
+            // 添加到图层句柄中
+            plotDraw.addFeature(feature, options);
+        });
+        
+        // 要绘制的要素类型
+        var type = document.getElementById('typeSelect').value;
+        document.getElementById('typeSelect').addEventListener('change',function(evt){
+            var tar = evt.target;
+            type = tar.value;
+        });
+
+        document.getElementById('draw').addEventListener('click',function(evt){
+            // 点击开始绘制态势标绘图形
+            plotDraw.activate(plotDict[type]);
+        });
+    </script>
+</body>
+
+</html>

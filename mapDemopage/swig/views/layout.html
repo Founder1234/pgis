@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/newdoc.css">
+    <link rel="stylesheet" type="text/css" href="css/codemirror.css">
+    <link rel="stylesheet" type="text/css" href="js/simplescrollbars.css">
+    <script src="js/codemirror.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="mode/xml/xml.js"></script>
+    <script src="mode/javascript/javascript.js"></script>
+    <script src="mode/css/css.js"></script>
+    <script src="mode/vbscript/vbscript.js"></script>
+    <script src="mode/htmlmixed/htmlmixed.js"></script>
+    <script src="js/simplescrollbars.js"></script>
+</head>
+<body>
+    <div class="newdoc-header" id="header">
+    </div>
+    <div class="container-fluid newdoc-container">
+        <div class="row newdoc-row">
+            <div class="tree col-md-2">
+                <div id="tree" class="newdoc-aci-tree">
+                    <ul id="ul-tree"></ul>
+                </div>
+            </div>
+            <div class="col-md-4 newdoc-codes">
+                <div class="newdoc-codes-header">
+                    <label>源代码</label>
+                    <div class="btn-group newdoc-codes-header-btngroup" role="group">
+                        <a type="button" class="btn btn-small" onclick="restore()"><i class="glyphicon glyphicon-refresh"></i>刷新</a>
+                        <a type="button" class="btn btn-small" onclick="run()"><i class="glyphicon glyphicon-play-circle"></i>运行</a>
+                    </div>
+                </div>
+                <div class="newdoc-codes-wrap">
+                    <textarea name="" id="CodeMirror" class="CodeMirror">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../lib/EzServerClient.min.css">
+    <script type="text/javascript" src="../lib/EzMapAPI.js"></script>
+    <script type="text/javascript" src="../lib/EzServerClient.min.js"></script>
+    {% block head %}{% endblock %}
+    <style type="text/css">
+    body, html, #allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+    </style>
+</head>
+{% block code %} {% endblock %}
+</html>
+                    </textarea>
+                </div>
+            </div>
+            <div class="col-md-6 newdoc-map">
+                <iframe id="preview" width="100%" height="98%" scrolling="no" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+    <script>
+    var element = document.getElementById('CodeMirror');
+    var mixedMode = {
+        name: "htmlmixed",
+        scriptTypes: [{
+            matches: /\/x-handlebars-template|\/x-mustache/i,
+            mode: null
+        }, {
+            matches: /(text|application)\/(x-)?vb(a|script)/i,
+            mode: "vbscript"
+        }]
+    };
+    var editor = CodeMirror.fromTextArea(element, {
+        mode: mixedMode,
+        lineWrapping: true,
+        scrollbarStyle: "simple",
+        styleActiveLine: true,
+        tabMode: 'indent',
+        autoCloseTags: true
+    });
+    
+    $.get('js/data/data.json',function(data){
+        var ul_element = document.getElementById('ul-tree');
+        for (var i = 0; i < data.length; i++) {
+            var lielement = generateli(data[i]);
+            ul_element.appendChild(lielement);
+        }
+    });
+
+
+    function generateli(obj){
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+        a.href = obj.html;
+        a.innerText = obj.desc;
+        li.appendChild(a);
+        return li;
+    }
+
+    var preview = document.getElementById('preview');
+    var initValue = editor.getValue();
+
+
+    function restore(){
+        editor.setValue(initValue);
+        updatePreview();
+    }
+
+    function run(){
+        updatePreview();
+    }
+
+    function updatePreview(){
+        previewContent = preview.contentDocument ||  preview.contentWindow.document;
+        previewContent.open();
+        previewContent.write(editor.getValue());
+        previewContent.close();
+    }
+
+    updatePreview();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>HTMLElementOverlay Show</title>
+	<link rel="stylesheet" type="text/css" href="../lib/EzServerClient.min.css">
+	<script type="text/javascript" src="../lib/EzMapAPI.js"></script>
+	<script type="text/javascript" src="../lib/EzServerClient.min.js"></script>
+	<style type="text/css">
+		body {
+			padding: 5;
+		}
+		p,pre {
+			margin: 0;
+			border: 0;
+		}
+		.start-up-code {
+		  padding-left: 15px;
+		  padding-top: 15px;
+		  padding-bottom: 15px;
+		  width: 80%;
+		  margin: 0 auto;
+		}
+
+		.start-up-code > p {
+		  background-color: #E18728;
+		  padding-left: 10px;
+		  font-size: 18px;
+		  font-weight: bold;
+		  line-height: 2;
+		  color: white;
+		}
+
+		.start-up-code > pre {
+		  padding-left: 5px;
+		  box-sizing:border-box;
+		  -moz-box-sizing:border-box;
+		  webkit-box-sizing:border-box;
+		  display:block; 
+		  white-space: pre-wrap;  
+		  white-space: -moz-pre-wrap; 
+		  white-space: -pre-wrap; 
+		  white-space: -o-pre-wrap; 
+		  word-wrap: break-word; 
+		  width:100%; 
+		  overflow-x:auto;
+
+		  background-color: #1D1F21;
+		  color:#FFF;
+		  line-height: 1.5;
+		  font-size: 16px;
+		  letter-spacing: 1px;
+
+		  font-family: "Times New Roman", Times, serif;
+		}
+		.divOverlay {
+			border: 1px solid #777373;
+			border-radius: 2px;
+			font-family: 微软雅黑,宋体;
+			font-size: 15px;
+		}
+		.divOverlay span {
+			background-color: green;
+		}
+	</style>
+</head>
+<body>
+	<div id="map" style="padding: 10px; border: 1px solid blue; width: 80%; height: 350px;margin: 0 auto;"></div>
+	<br />
+	<hr width="80%" />
+	<div class="start-up-code">
+		<P>HTML</P>
+		<pre>
+			<code>
+&lt;!-- body部分,部署以及加载查看起步 --&gt;
+&lt;div id="map" style="padding: 10px; border: 1px solid blue; width: 80%; height: 350px;"&gt;&lt;/div&gt;
+&lt;style type="text/css"&gt;
+	.divOverlay {
+		border: 1px solid #777373;
+		border-radius: 2px;
+		font-family: 微软雅黑,宋体;
+		font-size: 15px;
+	}
+	.divOverlay span {
+		background-color: green;
+	}
+&lt;/style&gt;
+&lt;script type="text/javascript"&gt;
+	var map = new EzMap('map');
+
+	/**
+	 * HTMLElementOverlay类,canvas渲染下的DOM元素,更加简化的popup
+	 */
+	var strHtml = '&lt;div class="divOverlay"&gt;&lt;label id="test-content"&gt;我在这个地方：&lt;/label&gt;&lt;span&gt;test&lt;/span&gt;&lt;/div&gt;';
+	var pos = new EzCoord(116.34765,39.94921);
+
+	var htmloverlay = new HTMLElementOverLay('test',pos,strHtml,[0,0],'center-center');
+	map.addOverlay(htmloverlay);
+&lt;/script&gt;
+			</code>
+		</pre>
+	</div>
+
+	<script type="text/javascript">
+		var map = new EzMap('map');
+		
+		/**
+		 * HTMLElementOverlay类,canvas渲染下的DOM元素,更加简化的popup
+		 */
+		var strHtml = '<div class="divOverlay"><label id="test-content">我在这个地方：</label><span>test</span></div>';
+		var pos = new EzCoord(116.34765,39.94921);
+
+		var htmloverlay = new HTMLElementOverLay('test',pos,strHtml,[0,0],'center-center');
+		map.addOverlay(htmloverlay);
+	</script>
+</body>
+</html>

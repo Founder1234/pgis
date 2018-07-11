@@ -1,0 +1,12 @@
+.ez-editCircle-btn {
+    margin-left: -15.5px;
+    margin-top: -9.5px;
+    width: 31px;
+    height: 19px;
+    background-image: url(../images/area_btn01.png);
+}
+
+.ez-editCircle-btn:hover {
+    cursor: pointer;
+    background-image: url(../images/area_btn02.png);
+}

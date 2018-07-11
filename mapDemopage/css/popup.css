@@ -1,0 +1,56 @@
+.ez-popup {
+    display: none;
+    min-width: 170px;
+    max-width: 200px;
+    position: relative;
+    background: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    border-radius: 5px;
+    -webkit-filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+    padding: 10px;
+}
+
+.ez-popup:after,
+.ez-popup:before {
+    top: 100%;
+    left: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.ez-popup:after {
+    border-color: rgba(255, 255, 255, 0);
+    border-top-color: #FFFFFF;
+    border-width: 10px;
+    margin-left: -10px;
+}
+
+.ez-popup:before {
+    border-color: rgba(255, 255, 255, 0);
+    border-top-color: #FFFFFF;
+    border-width: 10px;
+    margin-left: -10px;
+}
+
+.ez-popup-closer {
+    text-decoration: none;
+    position: absolute;
+    top: 2px;
+    right: 8px;
+}
+
+.ez-popup-closer:after {
+    content: "✖";
+}
+
+.ez-popup-content {
+    text-align: center;
+    font-family: 微软雅黑, 宋体;
+    font-size: 15px;
+    line-height: 15px;
+}

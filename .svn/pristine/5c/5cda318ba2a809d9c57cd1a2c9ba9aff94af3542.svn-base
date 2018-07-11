@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ez_Marker</title>
+    <link rel="stylesheet" href="../debug/EzServerClient.min.css">
+    <link rel="stylesheet" type="text/css" href="popup.css">
+    <script type="text/javascript" src="assign.polyfill.js"></script>
+    <script type="text/javascript" src="../EzMapAPI.js?key=121212"></script>
+    <script type="text/javascript" src="../debug/EzServerClient.js"></script>
+    <style type="text/css">
+    html,
+    body {
+        padding: 0;
+        margin: 0;
+    }
+    
+    #map {
+        background: #9ACAF9;
+        background-image: linear-gradient(hsla(0, 0%, 100%, .7) 2px, transparent 0), linear-gradient(90deg, hsla(0, 0%, 100%, .7) 2px, transparent 0), linear-gradient(hsla(0, 0%, 100%, .3) 1px, transparent 0), linear-gradient(90deg, hsla(0, 0%, 100%, .3) 1px, transparent 0);
+        background-size: 256px 256px, 256px 256px, 16px 16px, 16px 16px;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="map" style="width:100%;height:500px"></div>
+    <img id="test_map" src="../images/test_marker.png">
+    <button id="animation">click</button>
+    <script type="text/javascript">
+    var map = new EzMap('map');
+    map.showMapControl();
+
+    // //默认marker
+    // var position = new EzCoord(116.24765, 39.94921);
+    // var marker = new EzMarker(position);
+    // map.addOverlay(marker);
+
+    // var image = document.getElementById("test_map");
+    // var widthOfImage = image.width;
+    // var heightOfImage = image.height;
+    //自定义marker
+    // var title = new EzTitle("Title对象",{
+    //             "fontSize": 16,
+    //             "fontColor": "#FFFFFF",
+    //             "fillColor": "#1215AB",
+    //             "isStroke": true,
+    //             "strokeColor": "#EE1E2F",
+    //             "strokeWidth": 1,
+    //             "lineHeight": 2.5,
+    //             "paddingH": 15,
+    //             "offset": [0, -44]
+    //         });
+    var positionDiy = new EzCoord(116.55765, 40.09921);
+    var icon = new EzIcon({
+        src: '../images/car.png',
+        anchor: [0.5, 0.5],
+        size: [48, 24],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'fraction',
+        opacity: 1
+    });
+    // var markerDiy = new EzMarker(positionDiy, icon, title);
+    var markerDiy = new EzMarker(positionDiy, icon);
+    map.addOverlay(markerDiy);
+    // markerDiy.showTitle();
+    map.centerAndZoom(positionDiy, 12);
+    
+    // var icon2 = new EzIcon({
+    //     src: '../images/car1.png',
+    //     anchor: [0.5, 0.5],
+    //     size: [32, 32],
+    //     anchorXUnits: 'fraction',
+    //     anchorYUnits: 'fraction',
+    //     opacity: 1
+    // });
+    // var positionDiy2 = new EzCoord(117.55765, 40.09921);
+    // var cloneMarker = new EzMarker(positionDiy2, icon2);
+    // map.addOverlay(cloneMarker);
+
+    // IE性能测试
+    function getRandomLatLng(map) {
+        var bounds = map.getBoundsLatLng(),
+            southWest = [bounds.minX, bounds.minY],
+            northEast = [bounds.maxX, bounds.maxY],
+            lngSpan = northEast[0] - southWest[0],
+            latSpan = northEast[1] - southWest[1];
+
+        return new EzCoord(
+            southWest[0] + lngSpan * Math.random(),
+            southWest[1] + latSpan * Math.random());
+    }
+
+    function populate(num, map) {
+        for (var i = 0; i < num; i++) {
+            var m = new EzMarker(getRandomLatLng(map));
+            map.addOverlay(m);
+        }
+    }
+    // populate(40000, map);
+
+    markerDiy.setPositionSmooth(new EzCoord(116.55765, 39.94921), 6000, 100);
+
+    markerDiy.getGeometry().translate(0.1, 0.1);
+    // var markerDiy2 = new EzMarker(new EzCoord(116.55765, 40.03921));
+    // map.addOverlay(markerDiy2);
+    
+
+    var point1 = new EzCoord(116.55765, 40.09921);
+    var point2 = new EzCoord(116.60765, 40.09921);
+    var point3 = new EzCoord(116.60765, 40.02921);
+
+    // Marker 标点
+    var starter = new EzMarker(point1,undefined,new EzTitle("开始位置",{
+        fillColor: '##9EAEF6',
+        fontColor: '#FFFFFF',
+        fontSize: 16,
+        offset: [0, -45]
+    }));
+    var ender = new EzMarker(point3,undefined,new EzTitle("结束位置", {
+        fillColor: '##9EAEF6',
+        fontColor: '#FFFFFF',
+        fontSize: 16,
+        offset: [0, -45]
+    }));
+    map.addOverlay(starter);
+    map.addOverlay(ender);
+    starter.showTitle();
+    ender.showTitle();
+    
+    // 轨迹部分
+    // var rotate1 = new Ez.animation.Rotate(3000, "rotation",
+    //     0, rotationCalc(point1.getCoordinate(), point2.getCoordinate()), false);
+    // var translate1 = new Ez.animation.Translate(6000, "position",
+    //     point1, point2);
+    // var rotate2 = new Ez.animation.Rotate(3000, "rotation",
+    //     rotationCalc(point1.getCoordinate(), point2.getCoordinate()), rotationCalc(point2.getCoordinate(), point3.getCoordinate()), true);
+    // var translate2 = new Ez.animation.Translate(3000, "position",
+    //     point2, point3);
+    // // 针对并行动画的
+    // var rotate3 = new Ez.animation.Rotate(3000, "rotation",
+    //     0, rotationCalc(point1.getCoordinate(), point3.getCoordinate()), false);
+    // var translate3 = new Ez.animation.Translate(6000, "position",
+    //     point1, point3);
+    // var sequence = new Ez.animation.Sequence(markerDiy, [rotate1, translate1, rotate2, translate2]);
+    // var parallel = new Ez.animation.Parallel(markerDiy, [rotate3, translate3]);
+    // sequence.setRefreshController(map);
+    // sequence.play();
+    // parallel.setRefreshController(map);
+    // parallel.play();
+    // sequence.on('animation:start', function(e) {});
+    // sequence.on('animation:end', function(e) {});
+
+    // map.on('postcompose',function(){
+    //     console.log('postcompose');
+    // });
+
+    // map.on('postrender',function(){
+    //     console.log('postrender');
+    // });
+    // var icon2 = new EzIcon({
+    //     src: '../images/hotspot1.png',
+    //     anchor: [0.5, 1],
+    //     offset: [3,3],
+    //     anchorXUnits: 'fraction',
+    //     anchorYUnits: 'fraction',
+    //     opacity: 1
+    // });
+    // var markerDiy2 = new EzMarker(positionDiy,icon2);
+    // map.addOverlay(markerDiy2);
+
+    //marker diy
+    // var positionDiy2 = new EzCoord(116.44765,39.94921);
+    // var icon2 = new EzIcon({
+    //  src: '../images/czc_zx.png',
+    //  anchor: [0.5, 0.5],
+    //          anchorXUnits: 'fraction',
+    //          anchorYUnits: 'fraction',
+    //  opacity: 1
+    // });
+    // var title2 = new EzTitle("Title对象",{
+    //  offset:[0,-30]
+    // });
+    // var markerDiy2 = new EzMarker(positionDiy2,icon2,title2);
+    // map.addOverlay(markerDiy2);
+    // markerDiy2.showTitle();
+    //下面展示如何添加marker点击事件监听
+    //基于canvas的绘图方式，marker的点击只能从map地图点击，通过要素捕捉触发
+    //marker也能监听事件，不过只支持其属性信息变化的事件
+    // map.addMapEventListener(Ez.Event.MAP_CLICK,function(evt){
+    //  var pixel = evt.pixel;
+    //  var coord = evt.coordinate;
+    //  map.openInfoWindow(coord,'<div><h2>Coordinates</h2><p>' + coord[0] + " " + coord[1] + '</p></div>');
+    // });
+
+    function rotationCalc(start, end) {
+        // 计算两点之间的差值
+        var dy = end[1] - start[1];
+        var dx = end[0] - start[0];
+        // 计算反正切值
+        var atan = Math.abs(dy) / Math.abs(dx);
+        var a = null;
+        // 坐标象限判断
+        if (dy > 0 && dx > 0) a = Math.atan(atan);
+        else if (dy < 0 && dx > 0) a = Math.PI / 2 + Math.atan(atan);
+        else if (dy < 0 && dx < 0) a = Math.PI + Math.atan(atan);
+        else if (dy > 0 && dx < 0) a = 3 * Math.PI / 2 + Math.atan(atan);
+        else if (dy === 0 && dx > 0) a = Math.PI / 2;
+        else if (dy === 0 && dx < 0) a = 3 * Math.PI / 2;
+        else if (dy > 0 && dx === 0) a = 0;
+        else if (dy < 0 && dx === 0) a = Math.PI;
+
+        a = a + Math.PI / 2;
+        return a;
+    };
+
+    document.getElementById("animation").addEventListener('click', function() {
+        map.zoomAnimationTo(14, {
+            fn: function() {
+                alert('hi');
+            }
+        });
+    });
+
+    map.addMapEventListener(Ez.Event.MAP_MOUSEMOVE, function(evt) {
+        var pixel = evt.pixel;
+        var coord = evt.coordinate;
+        var viewport = map.getViewport();
+        var device = this.forEachFeatureAtPixel(pixel, function(feature, layer) {
+            viewport.style.cursor = 'pointer';
+            return feature;
+        });
+        if (!device) {
+            viewport.style.cursor = '';
+        }
+    });
+
+    var innHtml = '<button id="test" onclick="test()">dianjiwo</button>';
+
+    function test() {
+        alert("hi");
+    }
+
+    // map.disabledblZoom();
+
+    map.addMapEventListener(Ez.Event.MAP_CLICK, function(evt) {
+        var pixel = evt.pixel;
+        var coord = evt.coordinate;
+        var viewport = map.getViewport();
+        var device = this.forEachFeatureAtPixel(pixel, function(feature, layer) {
+            return feature;
+        });
+        if (device) {
+            var pos = device.getPoint();
+            map.openInfoWindow(innHtml, pos, {
+                stopEvent: true,
+                offsetY: -40
+            });
+        }
+    });
+    </script>
+</body>
+
+</html>

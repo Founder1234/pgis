@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	    <title>地图API示例</title>  
+		<link rel="stylesheet" type="text/css" href="./css/base.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	    <link rel="stylesheet" type="text/css" href="css/codemirror.css">
+	    <link rel="stylesheet" type="text/css" href="css/simplescrollbars.css">
+	    <link rel="stylesheet" href="css/style.min.css">
+	    <script src="js/codemirror.js"></script>
+	    <script src="js/jquery.min.js"></script>
+	    <script src="js/jstree.min.js"></script>
+	    <script src="mode/javascript/javascript.js"></script>
+	    <script src="mode/xml/xml.js"></script>
+    	<script src="mode/javascript/javascript.js"></script>
+    	<script src="mode/css/css.js"></script>
+    	<script src="mode/vbscript/vbscript.js"></script>
+    	<script src="mode/htmlmixed/htmlmixed.js"></script>
+	    <script src="js/simplescrollbars.js"></script>
+	    <script src="js/data.js"></script>
+	</head>
+	<body onload="mapheight();" style="zoom: 1;">
+		<div id="header">
+			<a class="logo">
+				<img src="./image/logo.png" alt="logo"/>
+			</a>
+		</div>
+		<div id="content">
+			<div  id="menu">
+				<div id="menubar">
+                    <p>EzServerClient功能示例</p>
+                </div>
+				<div id="tree">
+				
+				</div>
+			</div>
+			<div id="code_area" unselectable="on">
+				<div id="openbar" unselectable="on">
+                    <div class="openbar-btngroup" role="group">
+                        <a type="button" class="btn btn-small" onclick="refresh()"><i class="glyphicon glyphicon-refresh"></i>刷新</a>
+                        <a type="button" class="btn btn-small" onclick="run()"><i class="glyphicon glyphicon-play-circle"></i>运行</a>
+                    </div>
+					<p>源代码编辑器</p>
+				</div>
+				<textarea id="myresource" class="CodeMirror" ></textarea>
+			</div>
+			<div id="mapContent" class="clearfix">
+				<iframe id="container"  style="width: /*580px*/100%; height: /*547px*/100%;"></iframe>
+			</div>
+		</div>
+		<script type="text/javascript" src="./js/map.js"></script>
+	</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>show title for Overlay</title>
+    <link rel="stylesheet" href="../debug/EzServerClient.min.css">
+    <script type="text/javascript" src="../EzMapAPI.js"></script>
+    <script type="text/javascript" src="../debug/EzServerClient.js"></script>
+</head>
+<body>
+    <div id="map" style="width:100%;height:500px"></div>
+    <script type="text/javascript">
+    var map = new EzMap('map');
+    
+    var title = new EzTitle("NIHAO");
+    map.addOverlay(title);
+    title.show();
+
+    // 圆对象，点击出Title
+    // var circleOfEz = new Ez.g.Circle(new EzCoord(116.34765, 39.94921), 7000, {
+    //     'strokeColor': '#AC2222',
+    //     'strokeOpacity': 1,
+    //     'strokeWidth': 5,
+    //     'fillColor': '#EE0C0C',
+    //     'fillOpacity': 0.6
+    // });
+    // map.addOverlay(circleOfEz);
+
+    // circleOfEz.addTitle(title);
+    // circleOfEz.showTitle();
+    
+    // 点对象，点击出Title
+    // var pointOfEz = new Ez.g.Point(new EzCoord(116.34765, 39.94921), {
+    //     'radius': 5,
+    //     'fillColor': '#F3EA46',
+    //     'strokeColor': '#319FD3',
+    //     'strokeWidth': 1
+    // });
+    // map.addOverlay(pointOfEz);
+
+    // pointOfEz.addTitle(title);
+    // pointOfEz.showTitle();
+
+    // 线对象，点击Title
+    // var polylineOfEz = new Ez.g.Polyline('116.34765,39.94921,116.55,39.94921,116.44, 39.88,116.78,39.63', {
+    //     'strokeColor': '#F03232',
+    //     'strokeLineDash': [10, 10],
+    //     'strokeWidth': 5
+    // });
+    // map.addOverlay(polylineOfEz);
+
+    // polylineOfEz.addTitle(title);
+    // polylineOfEz.showTitle();
+    
+    // 面对象，点Title
+    // var polygonOfEz = new Ez.g.Polygon('116.34765,39.94921,116.55,39.94921,116.44, 39.88');
+
+    // map.addOverlay(polygonOfEz);
+
+    // polygonOfEz.addTitle(title);
+    // polygonOfEz.showTitle();
+
+    // var title2 = new EzTitle("Title对象",{
+    //             "fontSize": 16,
+    //             "fontColor": "#FFFFFF",
+    //             "fillColor": "#1215AB",
+    //             "isStroke": true,
+    //             "strokeColor": "#EE1E2F",
+    //             "strokeWidth": 1,
+    //             "lineHeight": 2.5,
+    //             "paddingH": 15,
+    //             "offset": [0, -44]
+    //         });
+    // var positionDiy = new EzCoord(116.55765, 40.09921);
+    // var icon = new EzIcon({
+    //     src: '../images/car.png',
+    //     anchor: [0.5, 0.5],
+    //     size: [48, 24],
+    //     anchorXUnits: 'fraction',
+    //     anchorYUnits: 'fraction',
+    //     opacity: 1
+    // });
+    // var markerDiy = new EzMarker(positionDiy, icon, title2);
+    // map.addOverlay(markerDiy);
+    // markerDiy.showTitle();
+    </script>
+</body>
+</html>

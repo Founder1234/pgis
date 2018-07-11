@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Animation Demo</title>
+    <link rel="stylesheet" type="text/css" href="../lib/EzServerClient.min.css">
+    <script type="text/javascript" src="../lib/EzMapAPI.js"></script>
+    <script type="text/javascript" src="../lib/EzServerClient.min.js"></script>
+    <style type="text/css">
+    body, html {width: 100%;height: 80%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+    </style>
+</head>
+<body>
+    <div id="map" style="width:100%;height:90%;"></div>
+    <div style="width:100%;height:10%;">
+        <span>动画控制集: </span>       
+        <button id="play">开始</button>
+    </div>
+
+    <script type="text/javascript">
+        var map = new EzMap('map');
+
+        var btnPlay = document.getElementById('play');
+        
+        // 示例数据，位置
+        var point1 = new EzCoord(116.35765, 39.94921);
+        var point2 = new EzCoord(116.40765, 39.94921);
+        var point3 = new EzCoord(116.40765, 39.89921);
+        
+        // 定位开始和结束标识
+        var marker_start = new EzMarker(point1, undefined, new EzTitle("开始位置",{
+            fillColor: '##9EAEF6',
+            fontColor: '#FFFFFF',
+            fontSize: 16,
+            offset: [0, -45]
+        }));
+        var marker_end = new EzMarker(point3, undefined, new EzTitle("结束位置",{
+            fillColor: '##9EAEF6',
+            fontColor: '#FFFFFF',
+            fontSize: 16,
+            offset: [0, -45]
+        }));
+        // 增加到地图上，并显示标题
+        map.addOverlay(marker_start);
+        marker_start.showTitle();
+        map.addOverlay(marker_end);
+        marker_end.showTitle();
+
+        /**
+         *
+         * 动画部分
+         *
+         */
+        /*----------  定义小车Marker  ----------*/
+        var icon = new EzIcon({
+            src: '../images/car.png',
+            anchor: [0.5, 0.5],
+            size: [48, 24],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'fraction',
+            opacity: 1
+        });
+        var car = new EzMarker(point1, icon);
+        map.addOverlay(car);
+        
+        /*----------  定义轨迹  ----------*/
+        // 1. 方向变化轨迹，参数为：时间，属性，初始值，结束值，转向(正向|逆向)
+        // 2. 位置变化轨迹, 参数为：时间，属性，初始值，结束值
+        var rotate = new Ez.animation.Rotate(3000, "rotation", rotationCalc(point1.getCoordinate(), point2.getCoordinate()), rotationCalc(point2.getCoordinate(), point3.getCoordinate()), true);
+        var translate = new Ez.animation.Translate(3000, "position", point1, point3);
+        // 构建串行动画合成轨迹
+        var parallel = new Ez.animation.Parallel(car, [rotate, translate]);
+        // 设置渲染引擎，地图客户端
+        parallel.setRefreshController(map);
+
+        /*----------  事件控制  ----------*/
+        btnPlay.addEventListener('click',function(){
+            parallel.play();
+            // 由于补间动画，插值计算是异步，所以，外部控制时一定要增加一定的延迟。保证地图渲染时轨迹已经计算完毕。
+            window.setTimeout(function(){
+                map.render();
+            },500);
+        });
+        
+        /*----------  根据两个点计算转向值  ----------*/
+        function rotationCalc(start, end) {
+            // 计算两点之间的差值
+            var dy = end[1] - start[1];
+            var dx = end[0] - start[0];
+            // 计算反正切值
+            var atan = Math.abs(dy) / Math.abs(dx);
+            var a = null;
+            // 坐标象限判断
+            if (dy > 0 && dx > 0) a = Math.atan(atan);
+            else if (dy < 0 && dx > 0) a = Math.PI / 2 + Math.atan(atan);
+            else if (dy < 0 && dx < 0) a = Math.PI + Math.atan(atan);
+            else if (dy > 0 && dx < 0) a = 3 * Math.PI / 2 + Math.atan(atan);
+            else if (dy === 0 && dx > 0) a = Math.PI / 2;
+            else if (dy === 0 && dx < 0) a = 3 * Math.PI / 2;
+            else if (dy > 0 && dx === 0) a = 0;
+            else if (dy < 0 && dx === 0) a = Math.PI;
+
+            a = a + Math.PI / 2;
+            return a;
+        };
+    </script>
+</body>
+</html>

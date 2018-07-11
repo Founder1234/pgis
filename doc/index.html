@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="ezServerClientV71ApidocApp">
+<head>
+	<meta charset="UTF-8">
+	<title>Getting Started</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body>
+	<!-- header -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	    <div class="container">
+	        <div class="navbar-header">
+	            <a class="navbar-brand" ui-sref="app"></a>
+	        </div>
+	        <div id="navbar" class="navbar-collapse collapse">
+	            <ul class="nav navbar-nav">
+	                <li class="active"><a href="/">
+	                    Getting Started</a></li>
+	                <li><a href="mapDemopage/main.html" target="_blank">
+	                    Demos</a></li>
+	                <li><a href="doc/" target="_blank">
+	                    APIs</a></li>
+	            </ul>
+	        </div>
+	    </div>
+	</nav> 
+
+	<!-- content -->
+
+<div class="container" style="margin-top: 100px;">
+	<!-- 第一项: 部署 -->
+	<div class="container">
+		<div class="start-up-header">
+			<h2>一、部署</h2>
+		</div>
+		<p class="start-up-content">
+			检查你的脚本文件，确保EzServerClientV7.1包中至少包含以下三个文件：
+			<ul>
+				<li><strong>EzServerClient.min.js</strong></li>
+				<li><strong>EzMapAPI.js</strong></li>
+				<li><strong>EzServerClient.min.css</strong></li>
+			</ul>
+		</p>
+		<p class="start-up-content">
+			通过服务器发布上述三个静态资源，以至于能够在前端调用他们。你可以使用你熟悉的发布方式: TOMCAT, NODEJS, WebLogic ...
+		</p>
+		<p class="start-up-content">
+			发布成功以后，可以在前端页面中通过脚本引用的方式，把三个脚本引入到项目中。
+		</p>
+		<div class="start-up-code">
+			<P>HTML</P>
+			<pre>
+				<code>
+&lt;!-- 注意加载顺序，文件编码格式为 "utf-8" --&gt;
+&lt;link rel="stylesheet" type="text/css" href="http://{yourip}:{port}/{path}/EzServerClient.min.css"&gt;
+&lt;script src="http://{yourip}:{port}/{path}/EzMapAPI.js"&gt;&lt;/script&gt;
+&lt;script src="http://{yourip}:{port}/{path}/EzServerClient.min.js"&gt;&lt;/script&gt;
+				</code>
+			</pre>
+		</div>
+		<p class="start-up-content">
+			现在可以使用EzServerClientV7.1的API进行Web地图开发...
+		</p>
+		<div class="start-up-tip">
+			EzMapAPI.js为配置文件，用于配置地图初始化参数，帮助简化地图初始化
+		</div>
+	</div>
+
+	<!-- 第二项：新建simple地图 -->
+	<div class="container">
+		<div class="start-up-header">
+			<h2>二、新建一张simple地图</h2>
+		</div>
+		<p class="start-up-content">
+			如下方式新建simple地图:
+		</p>
+		<div class="start-up-code">
+			<P>HTML</P>
+			<pre>
+				<code>
+&lt;!-- 提供地图容器，其中地图容器必须提供id号，用于生成地图 --&gt;
+&lt;div id="map" style="width:1300px;height:600px;"&gt;&lt;/div&gt;
+				</code>
+			</pre>
+		</div>
+		<br/>
+		<div class="start-up-code">
+			<P>Javascript</P>
+			<pre>
+				<code>
+/**
+ * 这里的map为上文HTML中新建的地图容器ID号；
+ * 下面一行代码便可以加载地图到browser上,前提是
+ * 在EzMapAPI.js中设置了相应的参数（具体查看EzMapAPI.js）
+ */
+var map = new EzMap("map");
+// 添加地图控件 (级别控制条，也可以选择不添加)
+map.showMapControl();
+				</code>
+			</pre>
+		</div>
+	</div>
+
+	<!-- 第三项：完整的simple地图 -->
+	<div class="container">
+		<div class="start-up-header">
+			<h2>三、完整的HTML代码</h2>
+		</div>
+		<div class="start-up-code">
+		<P>HTML</P>
+		<pre>
+			<code>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+	&lt;meta charset="UTF-8"&gt;
+	&lt;title&gt;Simple Map Demo&lt;/title&gt;
+	&lt;link rel="stylesheet" type="text/css" href="http://{yourip}:{port}/{path}/EzServerClient.min.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;div id="map" style="width: 1300px;height: 600px"&gt;&lt;/div&gt;
+
+	&lt;script type="text/javascript" src="http://{yourip}:{port}/{path}/EzMapAPI.js"&gt;&lt;/script&gt;
+	&lt;script type="text/javascript" src="http://{yourip}:{port}/{path}/EzServerClient.min.js"&gt;&lt;/script&gt;
+	&lt;!-- 外部js或者内嵌js --&gt;
+	&lt;script type="text/javascript"&gt;
+		var map = new EzMap('map');
+		map.showMapControl();
+	&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+			</code>
+		</pre>
+	</div>
+</div>
+
+	<!-- footer -->
+	<hr color="#CECECE" width="700px" />
+	<div class="container">
+		<div class="row">
+			<div class="footer-box col-md-6">
+				部门:  方正国际研发中心GIS产品组
+			</div>
+			<div class="col-md-4">
+				
+			</div>
+			<div class="footer-box col-md-6">
+				<span class="glyphicon glyphicon-envelope"></span>:  qian_leyi@founder.com.cn
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
+</body>
+</html>

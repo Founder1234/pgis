@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CenterTo Demo</title>
+    <link rel="stylesheet" type="text/css" href="../lib/EzServerClient.min.css">
+    <script type="text/javascript" src="../lib/EzMapAPI.js"></script>
+    <script type="text/javascript" src="../lib/EzServerClient.min.js"></script>
+    <style type="text/css">
+    body, html  {width: 100%;height: 80%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+    </style>
+</head>
+<body>
+    <div id="map" style="width:100%;height:85%;"></div>
+    <div style="width:100%;height:5%;">
+        <span>center to: </span>
+        <select id="locationSelect">
+            <option value="116.4551,40.2539">北京</option>
+            <option value="121.4648,31.2891">上海</option>
+            <option value="117.4219,39.4189">天津</option>
+        </select>
+        <button id="centerto">go!</button>
+    </div>
+    <div style="width:100%;height:5%;">
+        <span>地理坐标: </span>
+        <input type="text" id="locationText" value="">
+        <span>地图缩放级别: </span>
+        <input type="text" id="zoomText" value="">
+        <button id="centerAndZoom">go!</button>
+    </div>
+    <div style="width:100%;height:5%;">
+        <span>地理围栏: </span>
+        <input type="text" id="boxText" value="">
+        <button id="centerAtMBR">go!</button>
+    </div>
+    <script>
+        var map = new EzMap('map');
+        
+        var centertobtn = document.getElementById("centerto");
+        centertobtn.addEventListener('click',function(){
+            var selectelement = document.getElementById("locationSelect");
+            var posstr = selectelement[selectelement.selectedIndex].value;
+            var tempArr = posstr.split(',');
+            var coord = new EzCoord(tempArr[0],tempArr[1]);
+            map.centerAtLatlng(coord);
+        });
+
+        var centerandzoombtn = document.getElementById("centerAndZoom");
+        centerandzoombtn.addEventListener("click",function(){
+            var locationText = document.getElementById("locationText").value;
+            locationText = (locationText === "") ? [0,0] : locationText.split(',');
+            var coord = new EzCoord(locationText[0],locationText[1]);
+            var zoomText = document.getElementById("zoomText").value;
+            zoomText = (zoomText === "") ? 5 : Number(zoomText);
+            map.centerAndZoom(coord,zoomText);
+        });
+
+        var centeratmbrbtn = document.getElementById("centerAtMBR");
+        centeratmbrbtn.addEventListener("click",function(){
+            var boxText = document.getElementById("boxText").value;
+            boxText = (boxText === '') ? [116.4551,39.4189,117.4219,39.4189,40.2539] : boxText.split(',');
+            var mbr = new EzMBR(boxText[0],boxText[1],boxText[2],boxText[3]);
+            map.centerAtMBR(mbr);
+        });
+    </script>
+</body>
+</html>

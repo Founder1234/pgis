@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Different Layers Level Control Demo</title>
+    <link rel="stylesheet" type="text/css" href="../lib/EzServerClient.min.css">
+    <script type="text/javascript" src="../lib/EzMapAPI.js"></script>
+    <script type="text/javascript" src="../lib/EzServerClient.min.js"></script>
+    <style type="text/css">
+    body, html {width: 100%;height: 80%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+    </style>
+</head>
+<body>
+    <div id="map" style="width:100%;height:100%;"></div>
+    <script>
+        var map = new EzMap('map');
+        map.showLayersControl();
+        // 应用场景：
+        // 1. TDT矢量图层有0 - 18级图，因此，TDT类型可以缩放到18级
+        // 2. YX影像图层有 0 - 16级图，因此，YX类型只能缩放到16级
+        // 策略：使用地图事件控制，当前图层是YX时，且缩放级别到17级及以上就自动缩放到16级
+        /*----------  EzMapAPI的配置信息表对象  ----------*/
+        var config = map.getConfig();
+        // 配置的图层信息
+        var layerInfo = config.getLayersInfo();
+        // 获取地图底图图层组
+        var baseGroup = map.getTileLayers().getLayers().getArray();
+        /*----------  地图事件控制  ----------*/
+        map.addMapEventListener(Ez.Event.MAP_ZOOMCHANGE,function(evt){
+            // 获取当前地图缩放级别
+            var zoomLevel = evt.target.getZoom();
+            var center = evt.target.getCenter();
+            // 获取当前地图类型
+            var baseLayerTitle = baseGroup[0].get('ezname');
+            if (zoomLevel > 16 && baseLayerTitle === 'YX') {
+                map.zoomTo(16);
+            }
+        });
+    </script>
+</body>
+</html>

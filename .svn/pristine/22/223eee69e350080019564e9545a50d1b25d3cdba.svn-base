@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Draggable Marker</title>
+    <link rel="stylesheet" href="../debug/EzServerClient.min.css">
+    <link rel="stylesheet" type="text/css" href="popup.css">
+    <script type="text/javascript" src="assign.polyfill.js"></script>
+    <script type="text/javascript" src="../EzMapAPI.js?key=121212"></script>
+    <script type="text/javascript" src="../debug/EzServerClient.js"></script>
+    <style type="text/css">
+    html,
+    body {
+        padding: 0;
+        margin: 0;
+    }
+    
+    #map {
+        background: #9ACAF9;
+        background-image: linear-gradient(hsla(0, 0%, 100%, .7) 2px, transparent 0), linear-gradient(90deg, hsla(0, 0%, 100%, .7) 2px, transparent 0), linear-gradient(hsla(0, 0%, 100%, .3) 1px, transparent 0), linear-gradient(90deg, hsla(0, 0%, 100%, .3) 1px, transparent 0);
+        background-size: 256px 256px, 256px 256px, 16px 16px, 16px 16px;
+    }
+    </style>
+</head>
+<body>
+    <div id="map" style="width:100%;height:500px"></div>
+    <button id="drag">允许拖拽</button>
+    <button id="disdrag">禁止拖拽</button>
+    <script type="text/javascript">
+        var map = new EzMap('map');
+        var positionDiy = new EzCoord(116.35765, 39.89921);
+        var markerDiy = new EzMarker(positionDiy, undefined, undefined, {
+            draggable: true
+        });
+        map.addOverlay(markerDiy);
+        
+        var dragbtn = document.getElementById('drag');
+        var disdragbtn = document.getElementById('disdrag');
+
+        dragbtn.addEventListener('click',function(){
+            map.draggable();
+        });
+
+        disdragbtn.addEventListener('click',function(){
+            map.disdraggable();
+        });
+    </script>
+</body>
+</html>

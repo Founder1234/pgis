@@ -1,0 +1,33 @@
+{% extends '../views/layout.html' %} 
+
+{% block title %}Controls Demo{% endblock %}
+
+{% block code %} 
+<body>
+	<div id="map" style="width:100%;height:80%;"></div>
+	<div style="width:100%;height:10%;">
+		<button id="showMapControl">显示地图控件</button>
+		<button id="hideMapControl">隐藏地图控件</button>
+	</div>
+	<div style="width:100%;height:10%;">
+		<button id="showStandMapControl">显示标准地图控件</button>
+		<button id="hideStandMapControl">隐藏标准地图控件</button>
+	</div>
+
+	<script type="text/javascript">
+		var map = new EzMap('map');
+		document.getElementById("showMapControl").addEventListener("click",function(){
+			map.showMapControl();
+		});
+		document.getElementById("hideMapControl").addEventListener("click",function(){
+			map.hideMapControl();
+		});
+		document.getElementById("showStandMapControl").addEventListener("click",function(){
+			map.showStandMapControl();
+		});
+		document.getElementById("hideStandMapControl").addEventListener("click",function(){
+			map.hideMapControl();
+		});
+	</script>
+</body>
+{% endblock %}

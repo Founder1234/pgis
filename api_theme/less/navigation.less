@@ -1,0 +1,111 @@
+@import "common.less";
+
+// ::-webkit-scrollbar {
+//     width: 8px;
+//     background-color: transparent;
+// }
+
+// ::-webkit-scrollbar-thumb {
+//     background-color: gray;
+//     border-radius: 4px;
+// }
+
+.navigation {
+    position: fixed;
+    float: left;
+    width: @navWidth;
+    height: 100%;
+    background-color: @colorBgNavi;
+
+    overflow: auto;
+    // .applicationName {
+    //     margin: 0;
+    //     margin-top: 15px;
+    //     padding: 10px 15px;
+    //     font: bold 1.25em Helvetica;
+    //     color: #fff;
+
+    //     a {
+    //         color: #fff;
+    //     }
+    // }
+
+    .search {
+        padding: 15px;
+        input {
+            margin: 5px 10px 5px 0px;
+            width: 90%;
+            border: 1px solid #CCCCCC;
+            padding: 5px 8px;
+        }
+    }
+
+    .search :focus {
+        border: 2px solid #A3C2F2;
+        box-shadow: 0 0 0;
+    }
+
+    .list {
+        padding: 0 10px 0 15px;
+        position: relative;
+        width: 100%;
+    }
+
+    li.item {
+        margin-top: 6px;
+        padding-bottom: 8px;
+        //border-bottom: 1px solid #333;
+
+        a {
+            color: #bbb;
+            &:hover {
+                color: #8d8b8b;
+            }
+        }
+        .title {
+            cursor: pointer;
+            text-decoration: none;
+            position: relative;
+            a {
+                color: #0053CF;
+                &:hover {
+                    color: #004AB8;
+                    text-decoration: underline;
+                }
+            }
+            display: block;
+            font-size: 0.8em;
+
+            .static {
+                display: block;
+                border-radius: 3px;
+                background-color: @colorSubtitle;
+                color: #000;
+                font-size: 0.7em;
+                padding: 2px 4px;
+                float: right;
+            }
+        }
+
+        .subtitle {
+            margin-top: 10px;
+            margin-left: 5px;
+            font: bold 0.4em Helvetica;
+            color: @colorSubtitle;
+            display: block;
+        }
+
+
+        ul {
+            & > li {
+                font-size: 0.7em;
+                padding-left: 8px;
+                margin-top: 2px;
+            }
+        }
+
+        .itemMembers {
+            display: none;
+        }
+    }
+}

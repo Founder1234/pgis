@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>HTMLElementOverLay Demo</title>
+	<link rel="stylesheet" type="text/css" href="../debug/EzServerClient.min.css">
+    <script type="text/javascript" src="../EzMapAPI.js"></script>
+    <script type="text/javascript" src="../debug/EzServerClient.js"></script>
+	<style type="text/css">
+		.divOverlay {
+			border: 1px solid #777373;
+			border-radius: 2px;
+			font-family: 微软雅黑,宋体;
+			font-size: 15px;
+		}
+		.divOverlay span {
+			background-color: green;
+		}
+	</style>
+</head>
+<body>
+	<div id="map" style="width:100%;height:500px"></div>
+	<button id="btn-change">点击改变Overlay位置与span值</button>
+
+	<script type="text/javascript">
+		var map = new EzMap('map');
+
+		// map.showMapControl();
+
+		var strHtml = '<div class="divOverlay"><label id="test-content">我在这个地方：</label><span>test</span></div>';
+		var pos = new EzCoord(116.34765,39.94921);
+
+		var htmloverlay = new HTMLElementOverLay('test',pos,strHtml,[-15,-15],{
+			
+		});
+		map.addOverlay(htmloverlay);
+
+		/** 定义交互按钮 */
+		document.getElementById('btn-change').addEventListener('click',function(){
+			// var newpos = [116.44,39.94921]; //传入坐标可以是数组或者是EzCoord对象
+			// var element = document.getElementById('test-content');
+			// element.innerHTML = "我现在在这个地方：";
+			// htmloverlay.setPos(newpos);
+			setTimeout(function(){
+				var element = document.getElementById('test-content');
+				element.innerHTML = "我现在在这个地方：121212121221212";
+			},3000);
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+{% extends '../views/layout.html' %} 
+
+{% block title %}Interactepopup Demo{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="css/popup.css">
+{% endblock %}
+
+{% block code %} 
+<body>
+    <div id="map" style="width:100%;height:100%;"></div>
+    
+    <script type="text/javascript">
+    var map = new EzMap('map');
+
+    //默认marker样式
+    //popup样式修改可以通过更改popup.css的默认样式来达到自定义popup的设计
+    var position = new EzCoord(116.24765, 39.94921);
+    var marker = new EzMarker(position);
+    map.addOverlay(marker);
+
+    var position2 = new EzCoord(116.34765, 39.84921);
+    var marker2 = new EzMarker(position2);
+    map.addOverlay(marker2);
+    marker2.openInfoWindow("<div>我是一个marker</div>");
+
+    var positionDiy = new EzCoord(116.44765, 39.94921);
+    var icon = new EzIcon({
+        src: '../images/marker-icon.png',
+        anchor: [0.5, 1],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'fraction',
+        scale: 1,
+        opacity: 1
+    });
+    var markerDiy = new EzMarker(positionDiy, icon, '热点对象');
+    map.addOverlay(markerDiy);
+
+    map.addMapEventListener(Ez.Event.MAP_MOUSEMOVE, function(evt) {
+        var pixel = evt.pixel;
+        var marker = map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+            if (feature instanceof EzMarker) {
+                return feature;
+            }
+        });
+        if (marker) {
+            this.getViewport().style.cursor = 'pointer';
+        } else {
+            this.getViewport().style.cursor = '';
+        }
+    });
+
+    var strHTML1 = '<div>我是一个marker</div>';
+    var strHTML2 = '<div>我是一个marker</div><div style="background-color:red;width:100%;height:5px;">haha</div>'
+    var strhtml = strHTML1;
+    map.addMapEventListener(Ez.Event.MAP_CLICK, function(evt) {
+        var pixel = evt.pixel;
+        var coord = evt.coordinate;
+        var marker = map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+            if (feature instanceof EzMarker) {
+                return feature;
+            }
+        });
+        if (marker) {
+            //通过单击marker时打开popup
+            marker.openInfoWindow(strhtml);
+        }
+    });
+    </script>
+</body>
+{% endblock %}

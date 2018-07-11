@@ -1,0 +1,41 @@
+{
+  "name": "EzServerClientV7.1.2",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "gen-docs": "node_modules/.bin/jsdoc --configure conf.json --verbose",
+    "gen-publish": "gulp build & gulp gulp-swig & npm run gen-docs",
+    "dev-demo": "./node_modules/.bin/webpack-dev-server --port 9090 --content-base ./ --inline --hot",
+    "dash": "node_modules/.bin/jsdoc -d dash/path -p -t node_modules/jsdoc-dash-template -r src/jsdoc"
+  },
+  "author": "qianleyi",
+  "license": "ISC",
+  "devDependencies": {
+    "connect-livereload": "^0.3.2",
+    "del": "^2.2.0",
+    "fd-gulp-convert-encoding": "0.0.1",
+    "gulp": "^3.8.11",
+    "gulp-concat": "^2.5.2",
+    "gulp-copy": "0.0.2",
+    "gulp-debug": "^2.1.2",
+    "gulp-flatten": "^0.2.0",
+    "gulp-jade": "^1.1.0",
+    "gulp-jsdoc": "^0.1.4",
+    "gulp-jshint": "^1.10.0",
+    "gulp-minify-css": "^1.2.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-rimraf": "^0.2.0",
+    "gulp-swig": "^0.8.0",
+    "gulp-uglify": "^1.5.4",
+    "jsdoc": "^3.4.0",
+    "ljve-jsdoc-template": "0.0.2",
+    "moment": "^2.11.2",
+    "open": "0.0.5",
+    "pump": "^1.0.1",
+    "uglify-js": "^2.7.0"
+  },
+  "_nodeVersion": "0.12.0",
+  "_npmVersion": "2.5.1",
+  "dependencies": {}
+}

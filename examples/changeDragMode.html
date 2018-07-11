@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ol3_changeDragMode</title>
+    <link rel="stylesheet" href="../debug/EzServerClient.min.css">
+    <link rel="stylesheet" type="text/css" href="popup.css">
+    <script type="text/javascript" src="../debug/EzMapAPI.js"></script>
+    <script type="text/javascript" src="turf.min.js"></script>
+    <script type="text/javascript" src="../debug/EzServerClient.js"></script>
+    <style type="text/css">
+    .btn {
+        width: 120px;
+        height: 30px;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="map" style="width:100%;height:500px"></div>
+    <button id='Point' class='btn'>Point</button>
+    <button id='Line' class='btn'>Line</button>
+    <button id='Polygon' class='btn'>Polygon</button>
+    <button id='Circle' class='btn'>Circle</button>
+    <button id='Rect' class='btn'>Rect</button>
+    <button id='Edit' class='btn'>Edit</button>
+    <button id='EditEnd' class='btn'>EditEnd</button>
+    <hr/>
+    <button id="color" class='btn'>ModifyColor</button>
+    <button id="flash" class="btn">Flash</button>
+    <button id="change" class="btn">Change</button>
+    <script type="text/javascript">
+    var map = new EzMap('map');
+    map.showMapControl();
+    //map.centerAtLatlng(new EzCoord(115.923076, 30.303601));
+
+    var pointBtn = document.getElementById('Point');
+    var lineBtn = document.getElementById('Line');
+    var polygonBtn = document.getElementById('Polygon');
+    var circleBtn = document.getElementById('Circle');
+    var rectBtn = document.getElementById('Rect');
+    var editBtn = document.getElementById('Edit');
+    var editEndBtn = document.getElementById('EditEnd');
+
+    var colorBtn = document.getElementById('color');
+    var flashBtn = document.getElementById('flash');
+    var changeBtn = document.getElementById('change');
+
+    var pointTarget = null;
+
+    pointBtn.addEventListener('click', function() {
+        map.changeDragMode('drawPoint', function(e) {
+            pointTarget = new Ez.g.Point(e.getCenter(),undefined,{draggable:true});
+            map.addOverlay(pointTarget);
+        });
+    });
+
+    var newline = null;
+
+    lineBtn.addEventListener('click', function() {
+        map.changeDragMode('drawPolyline', function(e) {
+            var str = e.coordString;
+            console.log(str);
+            var feature = new Ez.g.Polyline(str);
+            map.addOverlay(feature);
+            feature.addArrowHead();
+            newline = feature;
+        });
+    });
+
+    var changeCircle;
+    circleBtn.addEventListener('click', function() {
+        map.changeDragMode('drawCircle', function(e) {
+            var feature = e;
+            var radius = feature.getRadius();
+            var center = feature.getCenter();
+            var newfeature = new Circle(center, radius, {
+                'strokeColor': '#8625C5',
+                'strokeOpacity': 1,
+                'strokeWidth': 5,
+                'fillColor': '#EE0C0C',
+                'fillOpacity': 0.6
+            });
+            changeCircle = newfeature;
+            map.addOverlay(newfeature);
+        });
+    });
+    var ttt = null;
+    polygonBtn.addEventListener('click', function() {
+        map.changeDragMode('drawPolygon', function(e) {
+            var testc = [
+                '#C01717', '#367C1B', '#B91D8B', '#0FDDCE', '#BC691B'
+            ];
+            console.log(str);
+            var str = e.coordString;
+            ttt = new Ez.g.Polygon(str, {
+                // 'fillColor': [234, 56, 56, Math.random()],
+                'fillOpacity': Math.random()
+            });
+            map.addOverlay(ttt);
+        });
+    });
+
+    rectBtn.addEventListener('click', function() {
+        map.changeDragMode('drawRect', function(e) {
+            var str = e.coordString;
+            var feature = new Ez.g.Rectangle(str);
+            map.addOverlay(feature);
+        });
+    });
+
+    editBtn.addEventListener('click', function() {
+        map.changeDragMode('editGeometry', undefined, pointTarget, "on");
+    });
+
+    editEndBtn.addEventListener('click', function() {
+        map.changeDragMode('editGeometry', function(obj) {
+            console.log(obj.coordString);
+        }, pointTarget, "off");
+    });
+
+    flashBtn.addEventListener('click', function() {
+        polygonOfEz.flash();
+        // marker1.hide();
+    });
+
+    changeBtn.addEventListener('click', function() {
+        circle3.setFillOpacity(1);
+    });
+
+    colorBtn.addEventListener('click', function() {
+
+        /** 多边形对象样式设置(runtime) */
+        console.log(polygonOfEz.getFillColor());
+        console.log(polygonOfEz.getFillOpacity());
+        polygonOfEz.setFillColor('rgb(7,34,45)');
+        polygonOfEz.setFillOpacity(0.3);
+        console.log(polygonOfEz.getStrokeColor());
+        console.log(polygonOfEz.getStrokeOpacity());
+        console.log(polygonOfEz.getStrokeWidth());
+        polygonOfEz.setStrokeColor('#ffffff');
+        polygonOfEz.setStrokeOpacity(1);
+        polygonOfEz.setStrokeWidth(4);
+        /********************************/
+
+        /** 多义线对象样式设置(runtime) */
+        // console.log(polylineOfEz.getStrokeColor());
+        // console.log(polylineOfEz.getStrokeOpacity());
+        // console.log(polylineOfEz.getStrokeWidth());
+        // polylineOfEz.setStrokeColor('#ffffff');
+        // polylineOfEz.setStrokeOpacity(1);
+        // polylineOfEz.setStrokeWidth(4);
+        /********************************/
+
+        /** 圆要素对象样式设置(runtime) */
+        // console.log(circleOfEz.getFillColor());
+        // console.log(circleOfEz.getFillOpacity());
+        // circleOfEz.setFillColor('rgb(7,34,45)');
+        // circleOfEz.setFillOpacity(0.3);
+        // console.log(circleOfEz.getStrokeColor());
+        // console.log(circleOfEz.getStrokeOpacity());
+        // console.log(circleOfEz.getStrokeWidth());
+        // circleOfEz.setStrokeColor('#ffffff');
+        // circleOfEz.setStrokeOpacity(1);
+        // circleOfEz.setStrokeWidth(4);
+        /********************************/
+
+        /** 点要素对象样式设置(runtime) */
+        // console.log(pointOfEz.getFillColor());
+        // console.log(pointOfEz.getFillOpacity());
+        // pointOfEz.setFillColor('rgb(0,255,45)');
+        // pointOfEz.setFillOpacity(0.3);
+        // console.log(pointOfEz.getRadius());
+        /********************************/
+
+    });
+
+    /**
+     * Ez.g.Circle
+     */
+    var circleOfEz = new Ez.g.Circle(new EzCoord(116.34765, 39.94921), 7000, {
+        'strokeColor': '#AC2222',
+        'strokeOpacity': 1,
+        'strokeWidth': 5,
+        'fillColor': '#EE0C0C',
+        'fillOpacity': 0.6
+    });
+    //map.addOverlay(circleOfEz);
+    map.centerAtLatlng(new EzCoord(116.34765, 39.94921));
+
+    var coords1 = new EzCoord(116.386779992065, 39.8790643024995);
+    var coords2 = new EzCoord(116.389881893368, 39.8881649220252);
+    var coords3 = new EzCoord(116.393447065645, 39.8883443708609);
+    var marker1 = new EzMarker(coords1);
+    // map.addOverlay(marker1);
+    var circleCoord = new EzCoord(116.39143466949463, 39.8878812789917);
+    var circle2 = new Circle(circleCoord, 1000);
+    // map.addOverlay(circle2);
+
+    var circleCoord3 = new EzCoord(116.41143466949463, 39.8878812789917);
+    var circle4 = new Circle(circleCoord3, 1000);
+    // map.addOverlay(circle4);
+
+    var circleCoord2 = new EzCoord(116.40143466949463, 39.8878812789917);
+    var circle3 = new Circle(circleCoord2, 1000);
+    // map.addOverlay(circle3);
+
+
+    console.log("P1   " + circle2.isPointInCircle(coords1));
+    console.log("P2   " + circle2.isPointInCircle(coords2));
+    console.log("P3   " + circle2.isPointInCircle(coords3));
+
+    /**
+     * Ez.g.Polyline
+     */
+    var polylineOfEz = new Ez.g.Polyline('116.34765,39.94921,116.55,39.94921,116.44765,39.89921', {
+        'strokeColor': '#261515',
+        'strokeLineDash': [10, 10],
+        'strokeWidth': 3
+    },{
+        draggable: true
+    });
+    map.addOverlay(polylineOfEz);
+    // var geojson = polylineOfEz.toGeoJSON();
+    // var unit = 'meters';
+    // var buffered = turf.buffer(geojson, 500, unit);
+    // var polygon2 = Polygon.readGeoJSON(buffered);
+    // map.addOverlay(polygon2);
+    polylineOfEz.addArrowHead();
+
+
+    /**
+     * Ez.g.Polygon
+     */
+    var coordinates = '115.923076,30.303601,115.928634,30.303628,115.935203,30.312658,115.968869,30.301456,115.984502,30.289626,115.980476,30.280810,115.985426,30.274271,115.983903,30.264792,115.990024,30.259155,116.006354,30.256414,116.009383,30.243330,116.024106,30.242292,116.024672,30.236034,116.043684,30.221542,116.052850,30.221496,116.061224,30.207515,116.057051,30.203289,116.062010,30.196351,116.051310,30.185082,116.066246,30.134732,116.083852,30.128518,116.079820,30.116753,116.084353,30.106954,116.076757,30.093180,116.082542,30.082630,116.082741,30.045742,116.087766,30.033867,116.077897,30.027941,116.075687,29.983090,116.069362,29.968110,116.122756,29.902423,116.122975,29.887314,116.129952,29.879894,116.122760,29.859600,116.129538,29.849608,116.125530,29.838250,116.131576,29.825294,116.082962,29.801143,116.043336,29.761677,115.948925,29.724057,115.931228,29.723505,115.890838,29.730245,115.837618,29.747923,115.758039,29.796870,115.678809,29.853519,115.576553,29.837080,115.514616,29.840271,115.468246,29.852528,115.448930,29.865585,115.425614,29.901505,115.407532,29.912240,115.404053,29.946812,115.375009,29.972457,115.359928,30.000058,115.319881,30.041202,115.316791,30.078474,115.294674,30.119339,115.220599,30.205229,115.203571,30.215065,115.184814,30.218164,115.163220,30.218051,115.137158,30.208548,115.115599,30.212231,115.092416,30.223701,115.076022,30.238851,115.074588,30.263386,115.085727,30.294355,115.081820,30.326402,115.093869,30.350279,115.083908,30.365648,115.074917,30.358045,115.063761,30.378116,115.044536,30.395821,115.007397,30.408447,114.947013,30.406901,114.885490,30.414339,114.856169,30.432702,114.832041,30.464573,114.828137,30.490969,114.834082,30.562635,114.804847,30.591960,114.801017,30.603100,114.783552,30.616130,114.791895,30.622194,114.835914,30.626390,114.847755,30.633613,114.841047,30.639454,114.853780,30.638292,114.849827,30.645320,114.841893,30.644064,114.841725,30.650051,114.824878,30.671709,114.820090,30.673153,114.815103,30.665849,114.805995,30.664700,114.800559,30.676902,114.807033,30.688775,114.791936,30.701693,114.779975,30.723927,114.800327,30.726414,114.837561,30.740840,114.866689,30.762377,114.872358,30.772888,114.874979,30.798764,114.886524,30.798543,114.911555,30.787223,114.928764,30.798576,114.947644,30.777763,114.953643,30.789025,114.949795,30.795974,114.941314,30.798906,114.940489,30.804403,114.965972,30.814376,114.969048,30.809596,114.977140,30.818230,114.978740,30.810683,114.984413,30.811775,114.987691,30.827030,114.996743,30.832978,114.987808,30.847908,114.995076,30.861069,115.014573,30.865674,115.018086,30.859301,115.025766,30.859487,115.025088,30.851223,115.032653,30.847621,115.042752,30.858715,115.045307,30.854958,115.050249,30.857379,115.048383,30.866052,115.075059,30.884768,115.071927,30.893657,115.055416,30.896657,115.053413,30.905301,115.029013,30.913345,115.017293,30.927893,115.008135,30.925589,114.988735,30.942793,114.982420,30.957273,114.988171,30.969462,114.978265,30.977203,114.984728,30.986955,114.983964,31.000100,114.976498,30.994781,114.980534,31.016829,114.975797,31.027975,114.967132,31.025408,114.972686,31.008458,114.957035,30.988638,114.932320,31.004656,114.924296,30.998124,114.915973,31.017062,114.897844,31.008648,114.878396,31.008860,114.864958,31.000065,114.852343,30.987435,114.869648,30.975554,114.872537,30.968153,114.861488,30.959337,114.856467,30.946475,114.836563,30.952317,114.818275,30.948101,114.820644,30.953704,114.810503,30.958963,114.807167,30.969467,114.799469,30.973038,114.804739,30.978665,114.801185,30.994577,114.792167,30.992318,114.791596,30.997478,114.780557,30.997753,114.764915,30.966329,114.757725,30.968003,114.761233,30.972473,114.758936,30.982572,114.763988,30.987495,114.756510,30.987359,114.753047,30.992424,114.739228,30.990844,114.732979,30.984509,114.705004,30.980302,114.698026,30.972854,114.692865,30.958405,114.703389,30.944375,114.700469,30.940198,114.678568,30.951079,114.665211,30.938325,114.654171,30.934951,114.639309,30.939361,114.633061,30.928571,114.628982,30.930850,114.619695,30.926067,114.608541,30.928870,114.608222,30.940225,114.604025,30.940905,114.598174,30.960315,114.571402,30.980029,114.556968,30.982022,114.549382,30.994998,114.538796,30.994603,114.523475,31.013592,114.505278,31.016473,114.494769,31.038624,114.499429,31.047186,114.510213,31.053032,114.510329,31.065894,114.528751,31.096607,114.523226,31.110464,114.529256,31.119219,114.522337,31.124576,114.514221,31.146297,114.488143,31.151248,114.483508,31.159643,114.465674,31.172186,114.456000,31.170545,114.453628,31.185050,114.466702,31.185864,114.468253,31.190971,114.445153,31.198360,114.447962,31.205652,114.429191,31.207974,114.417293,31.214778,114.400240,31.231510,114.396887,31.251217,114.432085,31.303214,114.437196,31.323450,114.431359,31.348459,114.421526,31.350851,114.416506,31.358865,114.423867,31.367413,114.423845,31.381171,114.443154,31.385163,114.447516,31.399105,114.445569,31.416592,114.458858,31.406456,114.476119,31.410967,114.477298,31.420697,114.469597,31.428712,114.473393,31.447610,114.483086,31.460480,114.481118,31.467911,114.490247,31.468754,114.495649,31.460073,114.507441,31.464092,114.493848,31.499941,114.500177,31.522939,114.515806,31.543215,114.516065,31.560401,114.522116,31.552237,114.538457,31.550738,114.546053,31.554588,114.553564,31.570944,114.555383,31.563365,114.567769,31.555888,114.569308,31.561540,114.586126,31.565966,114.590526,31.578381,114.606675,31.580269,114.611522,31.587389,114.636879,31.583914,114.638506,31.576355,114.647417,31.575042,114.665655,31.548432,114.694875,31.547788,114.691586,31.527574,114.710480,31.530545,114.717127,31.522267,114.735387,31.529594,114.741715,31.525778,114.750724,31.529600,114.764605,31.522556,114.773700,31.523081,114.768461,31.505122,114.777874,31.496590,114.777625,31.486442,114.807976,31.480768,114.824619,31.460864,114.831668,31.460645,114.845093,31.478676,114.863318,31.481078,114.870609,31.480107,114.871706,31.471914,114.879060,31.471898,114.916024,31.483584,114.932692,31.470496,114.937164,31.481816,114.968569,31.501437,114.976812,31.482357,114.992768,31.473693,114.996503,31.487057,115.005646,31.490477,114.998626,31.503077,115.004599,31.505858,115.018155,31.530090,115.025551,31.528586,115.025444,31.523525,115.033909,31.518713,115.088601,31.511478,115.086403,31.520786,115.096839,31.521950,115.110715,31.533119,115.099824,31.543387,115.105417,31.554249,115.099130,31.555653,115.097292,31.562277,115.100292,31.569007,115.122774,31.580650,115.119102,31.599831,115.145169,31.606301,115.167891,31.603676,115.172560,31.583103,115.186824,31.573203,115.185776,31.566659,115.202058,31.566208,115.207185,31.557095,115.230534,31.557944,115.206321,31.494145,115.213117,31.468384,115.205037,31.446729,115.213225,31.429719,115.217454,31.426004,115.227698,31.429406,115.247224,31.423762,115.253838,31.413463,115.247274,31.395837,115.254752,31.390283,115.278447,31.402638,115.302029,31.384383,115.318040,31.390249,115.332508,31.406034,115.347793,31.401007,115.366069,31.407324,115.386069,31.394754,115.385427,31.386671,115.369894,31.373664,115.375802,31.358310,115.366429,31.351787,115.401175,31.339369,115.415646,31.352082,115.418710,31.348534,115.427313,31.351413,115.437116,31.348006,115.443897,31.317760,115.450435,31.315262,115.456097,31.322173,115.457884,31.318869,115.451231,31.284268,115.462026,31.277986,115.469678,31.266382,115.485295,31.268875,115.496553,31.263992,115.504984,31.271105,115.521853,31.260073,115.536067,31.231038,115.531798,31.198592,115.540483,31.193118,115.551734,31.175892,115.552220,31.165358,115.573147,31.150723,115.591133,31.152368,115.612505,31.183634,115.630854,31.186517,115.641010,31.209933,115.656347,31.213743,115.686295,31.204405,115.701617,31.206435,115.708133,31.201643,115.708025,31.184461,115.726899,31.177596,115.730515,31.157204,115.742023,31.153813,115.755269,31.137765,115.766937,31.108831,115.778373,31.112301,115.790347,31.127000,115.833181,31.128609,115.849562,31.146165,115.873046,31.149499,115.884818,31.133075,115.891669,31.130486,115.884862,31.120128,115.890035,31.099843,115.917932,31.087497,115.918855,31.079011,115.941032,31.067255,115.941620,31.060219,115.934720,31.051347,115.938256,31.042860,115.948367,31.045252,115.963482,31.039787,115.978209,31.042682,115.999275,31.035628,116.007301,31.016556,116.025289,31.010643,116.034401,31.016845,116.053435,31.014686,116.066538,30.958402,116.036522,30.960429,116.029393,30.953207,116.004945,30.951937,115.985445,30.937164,115.970901,30.933611,115.965529,30.922260,115.949119,30.915069,115.944204,30.906122,115.931086,30.905415,115.924724,30.889966,115.909285,30.890228,115.884600,30.881864,115.860632,30.866728,115.859093,30.857829,115.842209,30.837338,115.843982,30.830116,115.858572,30.818158,115.861852,30.803502,115.852206,30.786958,115.864568,30.782936,115.865207,30.778452,115.847151,30.768353,115.846548,30.759175,115.841511,30.757586,115.830141,30.758731,115.818377,30.752554,115.805622,30.761188,115.781837,30.759103,115.760536,30.709533,115.762098,30.696754,115.757600,30.687499,115.767256,30.679987,115.770121,30.671111,115.790715,30.661912,115.793837,30.652118,115.808534,30.638910,115.809942,30.626928,115.802642,30.617818,115.806942,30.608493,115.815899,30.598450,115.822930,30.608353,115.843553,30.604245,115.852189,30.591910,115.869943,30.585759,115.874208,30.580610,115.870574,30.571709,115.878296,30.561647,115.881456,30.546074,115.894419,30.540176,115.905825,30.521492,115.916498,30.519695,115.904840,30.509101,115.893110,30.484736,115.895876,30.469104,115.889017,30.461900,115.889792,30.455134,115.912251,30.445322,115.917820,30.431120,115.941287,30.427640,115.935503,30.420671,115.919001,30.420926,115.907463,30.403510,115.895779,30.400253,115.880063,30.381810,115.902272,30.344095,115.909563,30.342634,115.913897,30.335942,115.910355,30.319475,115.902154,30.310676,115.916923,30.305689,115.923076,30.303601;115.140468,30.215610,115.132419,30.218453,115.142751,30.230961,115.134163,30.242736,115.136228,30.249371,115.148203,30.249691,115.155151,30.238361,115.155147,30.231740,115.145265,30.230099,115.141554,30.215719,115.140468,30.215610';
+    var polygonOfEz = new Ez.g.Polygon(coordinates, {
+        'strokeColor': '#AC2222',
+        'fillOpacity': 0.7,
+        'strokeWidth': 2,
+        'fillColor': '#F8259C',
+    });
+    // map.addOverlay(polygonOfEz);
+    map.centerAtLatlng(new EzCoord(115.018086,30.859301));
+
+    var testInsidePoint1 = new Point(new EzCoord(115.923076, 30.303601));
+    var isInside1 = turf.inside(testInsidePoint1.toGeoJSON(), polygonOfEz.toGeoJSON());
+
+    
+    // 新建Circle
+    var position = new EzCoord(116.39143466949463, 39.8878812789917);
+    var radius = 1000;
+    var circle = new Ez.g.Circle(position, radius, undefined, {
+        draggable: true
+    });
+    map.addOverlay(circle);
+    map.centerAtLatlng(position);
+    map.draggable();
+    
+
+    /**
+     * Ez.g.Point
+     */
+    var pointOfEz = new Ez.g.Point(new EzCoord(116.39143466949463, 39.8878812789917));
+    var pointstyle = new ol.style.Style({
+        image: new ol.style.RegularShape({
+            fill:new ol.style.Fill({
+                color: '#000'
+            }),
+            points: 3,
+            radius: 10,
+            rotation: Math.PI / 6,
+            angle: Math.PI / 2
+        })
+    });
+    pointOfEz.setStyle(pointstyle);
+    map.addOverlay(pointOfEz);
+    // var polygonOfEz = new Ez.g.Polygon(polylineOfEz.getArrowHeadPositions(), {
+    //     'strokeColor': '#AC2222',
+    //     'fillOpacity': 0.7,
+    //     'strokeWidth': 2,
+    //     'fillColor': '#F8259C',
+    // });
+    // map.addOverlay(polygonOfEz);
+
+    /**
+     * Ez.g.Rectangle
+     */
+    // var coordinates = '116.34765,39.94921,116.55,39.74921';
+    // var rectangleOfEz = new Ez.g.Rectangle(coordinates, {
+    //     'strokeColor': '#517CB7',
+    //     'strokeWidth': 3,
+    //     'strokeOpacity': 1,
+    //     'fillColor': '#517CB3',
+    //     'fillOpacity': 0.2
+    // });
+    // map.addOverlay(rectangleOfEz);
+
+    map.addMapEventListener(Ez.Event.MAP_CLICK, function(evt) {
+        var pixel = evt.pixel;
+        var coord = evt.coordinate;
+        var feature = map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+            if (feature instanceof EzOverlay) {
+                return feature;
+            }
+        });
+        if (feature) {
+            feature.openInfoWindow(coord, 'sss');
+        }
+    });
+
+    map.changeDragMode('measureArea',function(result){
+        console.log(result);
+    });
+    </script>
+</body>
+
+</html>

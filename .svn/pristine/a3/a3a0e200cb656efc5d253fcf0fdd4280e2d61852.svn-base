@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Controls</title>
+	<link rel="stylesheet" type="text/css" href="../lib/EzServerClient.min.css">
+	<script type="text/javascript" src="../lib/EzMapAPI.js"></script>
+	<script type="text/javascript" src="../lib/EzServerClient.min.js"></script>
+	<style type="text/css">
+		body {
+			padding: 5;
+		}
+		p,pre {
+			margin: 0;
+			border: 0;
+		}
+		.start-up-code {
+		  padding-left: 15px;
+		  padding-top: 15px;
+		  padding-bottom: 15px;
+		  width: 80%;
+		  margin: 0 auto;
+		}
+
+		.start-up-code > p {
+		  background-color: #E18728;
+		  padding-left: 10px;
+		  font-size: 18px;
+		  font-weight: bold;
+		  line-height: 2;
+		  color: white;
+		}
+
+		.start-up-code > pre {
+		  padding-left: 5px;
+		  box-sizing:border-box;
+		  -moz-box-sizing:border-box;
+		  webkit-box-sizing:border-box;
+		  display:block; 
+		  white-space: pre-wrap;  
+		  white-space: -moz-pre-wrap; 
+		  white-space: -pre-wrap; 
+		  white-space: -o-pre-wrap; 
+		  word-wrap: break-word; 
+		  width:100%; 
+		  overflow-x:auto;
+
+		  background-color: #1D1F21;
+		  color:#FFF;
+		  line-height: 1.5;
+		  font-size: 16px;
+		  letter-spacing: 1px;
+
+		  font-family: "Times New Roman", Times, serif;
+		}
+	</style>
+</head>
+<body>
+	<div id="map" style="padding: 10px; border: 1px solid blue; width: 80%; height: 350px;margin: 0 auto;"></div>
+	<div style="margin-left: 10%; padding: 10px;">
+		<button id="showMapControl">显示地图控件</button>
+		<button id="hideMapControl">隐藏地图控件</button>
+	</div>
+	<div style="margin-left: 10%; padding: 10px;">
+		<button id="showStandMapControl">显示标准地图控件</button>
+		<button id="hideStandMapControl">隐藏标准地图控件</button>
+	</div>
+	<br />
+	<hr width="80%" />
+	<div class="start-up-code">
+		<P>HTML</P>
+		<pre>
+			<code>
+&lt;!-- body部分,部署以及加载查看起步 --&gt;
+&lt;div id="map" style="padding: 10px; border: 1px solid blue; width: 80%; height: 350px;"&gt;&lt;/div&gt;
+&lt;div style="margin-left: 10%; padding: 10px;"&gt;
+	&lt;button id="showMapControl"&gt;显示地图控件&lt;/button&gt;
+	&lt;button id="hideMapControl"&gt;隐藏地图控件&lt;/button&gt;
+&lt;/div&gt;
+&lt;div style="margin-left: 10%; padding: 10px;"&gt;
+	&lt;button id="showStandMapControl"&gt;显示标准地图控件&lt;/button&gt;
+	&lt;button id="hideStandMapControl"&gt;隐藏标准地图控件&lt;/button&gt;
+&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+	var map = new EzMap('map');
+
+	document.getElementById("showMapControl").addEventListener("click",function(){
+		map.showMapControl();
+	});
+
+	document.getElementById("hideMapControl").addEventListener("click",function(){
+		map.hideMapControl();
+	});
+
+	document.getElementById("showStandMapControl").addEventListener("click",function(){
+		map.showStandMapControl();
+	});
+
+	document.getElementById("hideStandMapControl").addEventListener("click",function(){
+		map.hideMapControl();
+	});
+&lt;/script&gt;
+			</code>
+		</pre>
+	</div>
+
+	<script type="text/javascript">
+		var map = new EzMap('map');
+
+		document.getElementById("showMapControl").addEventListener("click",function(){
+			map.showMapControl();
+		});
+
+		document.getElementById("hideMapControl").addEventListener("click",function(){
+			map.hideMapControl();
+		});
+
+		document.getElementById("showStandMapControl").addEventListener("click",function(){
+			map.showStandMapControl();
+		});
+
+		document.getElementById("hideStandMapControl").addEventListener("click",function(){
+			map.hideMapControl();
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Layer Control Demo</title>
+    <link rel="stylesheet" href="../debug/EzServerClient.min.css">
+    <link rel="stylesheet" type="text/css" href="editCircle.css">
+    <script type="text/javascript" src="../EzMapAPI.js"></script>
+    <script type="text/javascript" src="../debug/EzServerClient.js"></script>
+    <style type="text/css">
+    #map {
+        margin: 0 auto;
+        width: 100%;
+        height: 500px;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <button id="add">add Layer Control</button>
+    <button id="remove">remove Layer Control</button>
+   
+    <script type="text/javascript">
+    var map = new EzMap('map');
+
+    var addbtn    = document.getElementById('add');
+    var removebtn = document.getElementById('remove');
+
+    addbtn.addEventListener('click',function(evt){
+        map.showLayersControl(function(layerInfo,type){
+            layerInfo[0].imageSRC = 'http://172.18.71.80:8080/images/layer_yingxiang.png';
+            layerInfo[1].imageSRC = 'http://172.18.71.80:8080/images/layer_shiliang.png';
+
+            return {
+                layerInfo: layerInfo,
+                type: 'simple'
+            };
+        });
+    });
+
+    removebtn.addEventListener('click',function(evt){
+        map.hideLayersControl();
+    });
+    </script>
+</body>
+
+</html>
